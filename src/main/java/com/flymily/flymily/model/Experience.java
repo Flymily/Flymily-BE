@@ -25,7 +25,7 @@ public class Experience {
     @Id
     @SequenceGenerator (name="experience_id_sequence", sequenceName = "experience_id_sequence", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "experience_id_sequence")
-    private Integer id;
+    private Integer experienceId;
     
     @Column (name="Título")
     @NotBlank
