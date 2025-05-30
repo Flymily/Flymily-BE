@@ -15,9 +15,9 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
 @Entity
 @Table (name="Experiencias")
+@Getter @Setter
 
 public class Experience {
     

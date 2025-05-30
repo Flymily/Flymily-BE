@@ -6,10 +6,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "transportes")
+@Getter @Setter
+
 public class Transporte {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,26 +26,26 @@ public class Transporte {
     public Transporte() {
     }
 
-    public Transporte(String tipoTransporte) {
-        this.tipoTransporte = tipoTransporte;
-    }
+    //Getters y Setters
+    // public Transporte(String tipoTransporte) {
+    //     this.tipoTransporte = tipoTransporte;
+    // }
 
-    // Getters y Setters
-    public Long getId() {
-        return id;
-    }
+    // public Long getId() {
+    //     return id;
+    // }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // public void setId(Long id) {
+    //     this.id = id;
+    // }
 
-    public String getTipoTransporte() {
-        return tipoTransporte;
-    }
+    // public String getTipoTransporte() {
+    //     return tipoTransporte;
+    // }
 
-    public void setTipoTransporte(String tipoTransporte) {
-        this.tipoTransporte = tipoTransporte;
-    }
+    // public void setTipoTransporte(String tipoTransporte) {
+    //     this.tipoTransporte = tipoTransporte;
+    // }
 
     // toString
     @Override
