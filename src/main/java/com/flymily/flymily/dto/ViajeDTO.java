@@ -1,7 +1,6 @@
 package com.flymily.flymily.dto;
 
 import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
