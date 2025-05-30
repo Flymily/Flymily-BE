@@ -1,7 +1,6 @@
 package com.flymily.flymily.model;
 
 import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -65,6 +64,9 @@ public class Experience {
     @Column (name = "Riesgo Social?")
     @NotNull(message = "(!) ERROR: el campo de la movilidad reducida no puede estar vacío")
     private boolean riesgoSocial;
+
+    @Column (name="Imagen")
+    private String imgPath;
 
     //AÑADIR RELACIONES CON TIPO, TRANSPORTE Y LOCALIDAD - CREAR SALIDA Y LLEGADA
 
