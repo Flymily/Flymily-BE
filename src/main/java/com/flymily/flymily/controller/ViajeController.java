@@ -3,16 +3,16 @@ package com.flymily.flymily.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.flymily.flymily.service.ExperienceService;
+import com.flymily.flymily.service.ViajeService;
 
 @RestController
 @RequestMapping ("api/v1/experiencia")
-public class ExperienceController {
+public class ViajeController {
     
-    private final ExperienceService experienceService;
+    private final ViajeService viajeService;
 
-    public ExperienceController(ExperienceService experienceService) {
-        this.experienceService = experienceService;
+    public ViajeController(ViajeService viajeService) {
+        this.viajeService = viajeService;
     }
 
     //AGREGAR MÉTODOS

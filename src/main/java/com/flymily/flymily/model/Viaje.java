@@ -19,12 +19,12 @@ import lombok.Setter;
 @Table (name="Experiencias")
 @Getter @Setter
 
-public class Experience {
+public class Viaje {
     
     @Id
     @SequenceGenerator (name="experience_id_sequence", sequenceName = "experience_id_sequence", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "experience_id_sequence")
-    private Integer experienceId;
+    private Long experienceId;
     
     @Column (name="Título")
     @NotBlank
@@ -70,6 +70,6 @@ public class Experience {
 
     //AÑADIR RELACIONES CON TIPO, TRANSPORTE Y LOCALIDAD - CREAR SALIDA Y LLEGADA
 
-    public Experience(){};
+    public Viaje(){};
 
 }
