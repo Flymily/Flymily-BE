@@ -59,13 +59,17 @@ public class Viaje {
     @NotNull(message = "(!) ERROR: el campo de la fecha de vuelta no puede estar vacío")
     private LocalDate fechaDeVuelta;
 
-    @Column (name = "Movilidad Reducida?")
-    @NotNull(message = "(!) ERROR: el campo de la movilidad reducida no puede estar vacío")
-    private boolean movilidadReducida;
+    @Column (name = "Discapacidad/Movilidad Reducida")
+    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
+    private boolean discapacidadMovilRed;
 
-    @Column (name = "Riesgo Social?")
-    @NotNull(message = "(!) ERROR: el campo de la movilidad reducida no puede estar vacío")
-    private boolean riesgoSocial;
+    @Column (name = "Grupo o Privado")
+    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
+    private boolean grupoOPrivado;
+
+    @Column (name = "Organizado o A Medida")
+    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
+    private boolean organizadoOMedida;
 
     @Column (name="Imagen")
     private String imgPath;
@@ -85,8 +89,6 @@ public class Viaje {
     @ManyToOne
     @JoinColumn(name = "transporte_id", nullable = false)
     private Transporte transporte;
-
-    //AÑADIR RELACIONES CON TIPO, TRANSPORTE Y LOCALIDAD - CREAR SALIDA Y LLEGADA
 
     public Viaje(){};
 
