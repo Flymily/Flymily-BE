@@ -12,15 +12,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter @Setter
 
-public class ViajeDTO {
+public class ViajeSencilloDTO {
     private Integer experienceId;
     private Integer numAdultos;
     private Integer numNinos;
     private Integer edad;
-    private Integer presupuesto;
     private LocalDate fechadeIda;
     private LocalDate fechaDeVuelta;
-    private boolean movilidadReducida;
-    private boolean riesgoSocial;
+
 
 }
