@@ -22,9 +22,19 @@ public class LocalidadService {
         return localidadRepository.findAll();
     }
 
-    // Obtener localidad por ID
+    // Obtener localidad por su ID
     public Optional<Localidad> getLocalidadById(Long id) {
         return localidadRepository.findById(id);
+    }
+
+    //Obtener localidad por su nombre - ciudad
+    public List<Localidad> findByCiudad(String ciudad) {
+    return localidadRepository.findByCiudadIgnoreCase(ciudad);
+    }
+
+    //Obtener localidad por su nombre - pais
+    public List<Localidad> findByPais(String pais) {
+    return localidadRepository.findByPaisIgnoreCase(pais);
     }
 
     // Guardar/actualizar localidad
@@ -37,5 +47,5 @@ public class LocalidadService {
         localidadRepository.deleteById(id);
     }
 
-   
+
 }
