@@ -1,16 +1,19 @@
 package com.flymily.flymily.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "transportes")
+@Table(name = "transporte")
 @Getter @Setter
 
 public class Transporte {
@@ -22,7 +25,10 @@ public class Transporte {
     @Column(name = "tipo_transporte", nullable = false, length = 50, unique = true)
     private String tipoTransporte;
 
-    // Constructores
+    @OneToMany(mappedBy = "transporte")
+    private List<Viaje> viaje;
+
+
     public Transporte() {
     }
 

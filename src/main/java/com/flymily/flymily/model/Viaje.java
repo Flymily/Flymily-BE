@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
@@ -67,6 +69,22 @@ public class Viaje {
 
     @Column (name="Imagen")
     private String imgPath;
+
+    @ManyToOne
+    @JoinColumn(name = "localidad_salida_id", nullable = false)
+    private Localidad localidadSalida;
+
+    @ManyToOne
+    @JoinColumn(name = "localidad_destino_id", nullable = false)
+    private Localidad localidadDestino;
+
+    @ManyToOne
+    @JoinColumn(name = "tipo_experiencia_id", nullable = false)
+    private TipoExperiencia tipoExperiencia;
+
+    @ManyToOne
+    @JoinColumn(name = "transporte_id", nullable = false)
+    private Transporte transporte;
 
     //AÑADIR RELACIONES CON TIPO, TRANSPORTE Y LOCALIDAD - CREAR SALIDA Y LLEGADA
 
