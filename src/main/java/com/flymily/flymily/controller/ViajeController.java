@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flymily.flymily.service.ViajeService;
 
 @RestController
-@RequestMapping ("api/v1/experiencia")
+@RequestMapping ("api/v1/viaje")
 public class ViajeController {
     
     private final ViajeService viajeService;

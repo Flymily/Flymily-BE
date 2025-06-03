@@ -11,8 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter @Setter
 
-public class TipoExperienciaDTO {
+public class TipoViajeDTO {
     private Long id;
-    private String experiencia;
+    private String tipoViaje;
 
 }

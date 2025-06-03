@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table (name="Experiencias")
+@Table (name="Viaje")
 @Getter @Setter
 
 public class Viaje {
@@ -79,8 +79,8 @@ public class Viaje {
     private Localidad localidadDestino;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_experiencia_id", nullable = false)
-    private TipoExperiencia tipoExperiencia;
+    @JoinColumn(name = "tipo_viaje_id", nullable = false)
+    private TipoViaje tipoViaje;
 
     @ManyToOne
     @JoinColumn(name = "transporte_id", nullable = false)
