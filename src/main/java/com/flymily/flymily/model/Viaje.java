@@ -18,7 +18,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table (name="Experiencias")
+@Table (name="Viaje")
 @Getter @Setter
 
 public class Viaje {
@@ -34,22 +34,18 @@ public class Viaje {
     private String title;
 
     @Column (name="N. de adultos")
-    @NotNull (message = "(!) ERROR: el campo del máximo de participantes no puede estar vacío")
-    @Min (value = 1, message = "(!) ERROR: el campo del máximo de participantes debe tener un valor mínimo de 1")
+    @NotNull (message = "(!) ERROR: el campo del número de adultos no puede estar vacío")
+    @Min (value = 1, message = "(!) ERROR: el campo del número de adultos debe tener un valor mínimo de 1")
     private Integer numAdultos;
 
     @Column (name="N. de ninos")
-    @NotNull (message = "(!) ERROR: el campo del máximo de participantes no puede estar vacío")
-    @Min (value = 1, message = "(!) ERROR: el campo los adultos debe tener un valor mínimo de 1")
+    @NotNull (message = "(!) ERROR: el campo del número de niños no puede estar vacío")
+    @Min (value = 1, message = "(!) ERROR: el campo del número de niños debe tener un valor mínimo de 1")
     private Integer numNinos;
 
     @Column (name="Edad")
     @NotNull (message = "(!) ERROR: el campo de las edades no puede estar vacío")
     private Integer edad;
-
-    @Column (name="Presupuesto")
-    @NotNull (message = "(!) ERROR: el campo del presupuesto no puede estar vacío")
-    private Integer presupuesto;
 
     @Column (name = "Fecha de Ida")
     @NotNull(message = "(!) ERROR: el campo de la fecha de ida no puede estar vacío")
@@ -59,16 +55,16 @@ public class Viaje {
     @NotNull(message = "(!) ERROR: el campo de la fecha de vuelta no puede estar vacío")
     private LocalDate fechaDeVuelta;
 
+    @Column (name="Presupuesto")
+    private Integer presupuesto;
+
     @Column (name = "Discapacidad/Movilidad Reducida")
-    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
     private boolean discapacidadMovilRed;
 
     @Column (name = "Grupo o Privado")
-    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
     private boolean grupoOPrivado;
 
     @Column (name = "Organizado o A Medida")
-    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
     private boolean organizadoOMedida;
 
     @Column (name="Imagen")
@@ -83,8 +79,8 @@ public class Viaje {
     private Localidad localidadDestino;
 
     @ManyToOne
-    @JoinColumn(name = "tipo_experiencia_id", nullable = false)
-    private TipoExperiencia tipoExperiencia;
+    @JoinColumn(name = "tipo_viaje_id", nullable = false)
+    private TipoViaje tipoViaje;
 
     @ManyToOne
     @JoinColumn(name = "transporte_id", nullable = false)

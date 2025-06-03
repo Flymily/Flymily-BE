@@ -20,5 +20,4 @@ public class ViajeSencilloDTO {
     private LocalDate fechadeIda;
     private LocalDate fechaDeVuelta;
 
-
 }
