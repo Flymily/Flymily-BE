@@ -34,13 +34,13 @@ public class Viaje {
     private String title;
 
     @Column (name="N. de adultos")
-    @NotNull (message = "(!) ERROR: el campo del máximo de participantes no puede estar vacío")
-    @Min (value = 1, message = "(!) ERROR: el campo del máximo de participantes debe tener un valor mínimo de 1")
+    @NotNull (message = "(!) ERROR: el campo del número de adultos no puede estar vacío")
+    @Min (value = 1, message = "(!) ERROR: el campo del número de adultos debe tener un valor mínimo de 1")
     private Integer numAdultos;
 
     @Column (name="N. de ninos")
-    @NotNull (message = "(!) ERROR: el campo del máximo de participantes no puede estar vacío")
-    @Min (value = 1, message = "(!) ERROR: el campo los adultos debe tener un valor mínimo de 1")
+    @NotNull (message = "(!) ERROR: el campo del número de niños no puede estar vacío")
+    @Min (value = 1, message = "(!) ERROR: el campo del número de niños debe tener un valor mínimo de 1")
     private Integer numNinos;
 
     @Column (name="Edad")
@@ -48,7 +48,6 @@ public class Viaje {
     private Integer edad;
 
     @Column (name="Presupuesto")
-    @NotNull (message = "(!) ERROR: el campo del presupuesto no puede estar vacío")
     private Integer presupuesto;
 
     @Column (name = "Fecha de Ida")
@@ -60,15 +59,12 @@ public class Viaje {
     private LocalDate fechaDeVuelta;
 
     @Column (name = "Discapacidad/Movilidad Reducida")
-    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
     private boolean discapacidadMovilRed;
 
     @Column (name = "Grupo o Privado")
-    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
     private boolean grupoOPrivado;
 
     @Column (name = "Organizado o A Medida")
-    @NotNull(message = "(!) ERROR: este campo no puede estar vacío")
     private boolean organizadoOMedida;
 
     @Column (name="Imagen")
