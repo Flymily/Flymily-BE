@@ -5,12 +5,12 @@ import com.flymily.flymily.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor 
+
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
@@ -24,7 +24,6 @@ public class UsuarioService {
     }
 
     public Usuario saveUsuario(Usuario usuario) {
-        // contraseña encriptada
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         return usuarioRepository.save(usuario);
     }

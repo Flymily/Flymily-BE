@@ -47,9 +47,6 @@ public class Viaje {
     @NotNull (message = "(!) ERROR: el campo de las edades no puede estar vacío")
     private Integer edad;
 
-    @Column (name="Presupuesto")
-    private Integer presupuesto;
-
     @Column (name = "Fecha de Ida")
     @NotNull(message = "(!) ERROR: el campo de la fecha de ida no puede estar vacío")
     private LocalDate fechaDeIda;
@@ -57,6 +54,9 @@ public class Viaje {
     @Column (name = "Fecha de Vuelta")
     @NotNull(message = "(!) ERROR: el campo de la fecha de vuelta no puede estar vacío")
     private LocalDate fechaDeVuelta;
+
+    @Column (name="Presupuesto")
+    private Integer presupuesto;
 
     @Column (name = "Discapacidad/Movilidad Reducida")
     private boolean discapacidadMovilRed;

@@ -1,7 +1,6 @@
 package com.flymily.flymily.model;
 
 import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,33 +31,4 @@ public class Transporte {
     public Transporte() {
     }
 
-    //Getters y Setters
-    // public Transporte(String tipoTransporte) {
-    //     this.tipoTransporte = tipoTransporte;
-    // }
-
-    // public Long getId() {
-    //     return id;
-    // }
-
-    // public void setId(Long id) {
-    //     this.id = id;
-    // }
-
-    // public String getTipoTransporte() {
-    //     return tipoTransporte;
-    // }
-
-    // public void setTipoTransporte(String tipoTransporte) {
-    //     this.tipoTransporte = tipoTransporte;
-    // }
-
-    // toString
-    @Override
-    public String toString() {
-        return "Transporte{" +
-                "id=" + id +
-                ", tipoTransporte='" + tipoTransporte + '\'' +
-                '}';
-    }
 }

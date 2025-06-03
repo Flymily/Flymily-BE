@@ -1,7 +1,6 @@
 package com.flymily.flymily.model;
 
 import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,33 +30,4 @@ public class TipoExperiencia {
     public TipoExperiencia() {
     }
 
-    // Getters & Setters
-    // public TipoExperiencia(String experiencia) {
-    //     this.experiencia = experiencia;
-    // }
-
-    // public Long getId() {
-    //     return id;
-    // }
-
-    // public void setId(Long id) {
-    //     this.id = id;
-    // }
-
-    // public String getExperiencia() {
-    //     return experiencia;
-    // }
-
-    // public void setExperiencia(String experiencia) {
-    //     this.experiencia = experiencia;
-    // }
-
-    // toString
-    @Override
-    public String toString() {
-        return "TipoExperiencia{" +
-                "id=" + id +
-                ", experiencia='" + experiencia + '\'' +
-                '}';
-    }
 }
