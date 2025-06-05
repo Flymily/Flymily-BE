@@ -24,8 +24,8 @@ import lombok.Setter;
 public class Viaje {
     
     @Id
-    @SequenceGenerator (name="experience_id_sequence", sequenceName = "experience_id_sequence", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "experience_id_sequence")
+    @SequenceGenerator (name="viaje_id_sequence", sequenceName = "viaje_id_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "viaje_id_sequence")
     private Long id;
     
     @Column (name="Título")
@@ -87,10 +87,5 @@ public class Viaje {
     private Transporte transporte;
 
     public Viaje(){}
-
-    public Object getTipoTransporte() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTipoTransporte'");
-    };
 
 }

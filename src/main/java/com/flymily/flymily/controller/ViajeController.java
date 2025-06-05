@@ -2,22 +2,22 @@ package com.flymily.flymily.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.flymily.flymily.dto.ViajeSencilloDTO;
+//import com.flymily.flymily.mapper.ViajeMapper;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.service.ViajeService;
-
 import jakarta.validation.Valid;
-
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping ("api/v1/viaje")
 public class ViajeController {
+    
+    //@Autowired
+    //private ViajeMapper viajeMapper;
     
     private final ViajeService viajeService;
 
@@ -25,11 +25,17 @@ public class ViajeController {
         this.viajeService = viajeService;
     }
 
-    @PostMapping("/{localidadSalida}/{localidadDestino}/{tipoViaje}/{transporte}")
-    public ResponseEntity<ViajeSencilloDTO> createViaje (@Valid @RequestBody Viaje viaje, @PathVariable String localidadSalida, @PathVariable String localidadDestino, @PathVariable String tipoViaje, @PathVariable String transporte) {
-        
-        return viajeService.createViaje(viaje, localidadSalida, localidadDestino, tipoViaje, transporte);
-    }
-    
+@PostMapping("/{ciudadSalida}/{paisSalida}/{ciudadDestino}/{paisDestino}/{tipoViajeNom}/{transporteNom}")
+public ResponseEntity<Viaje> createViaje(
+        @Valid @RequestBody Viaje viaje,
+        @PathVariable String ciudadSalida,
+        @PathVariable String paisSalida,
+        @PathVariable String ciudadDestino,
+        @PathVariable String paisDestino,
+        @PathVariable String tipoViajeNom,
+        @PathVariable String transporteNom) {
+
+    return viajeService.createViaje(viaje, ciudadSalida, paisSalida, ciudadDestino, paisDestino, tipoViajeNom, transporteNom);
+}
 
 }

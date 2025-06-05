@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.flymily.flymily.model.Viaje;
 
 @Component
-public class viajeMapper {
+public class ViajeMapper {
     
     public ViajeSencilloDTO toDTO(Viaje viaje) {
         ViajeSencilloDTO dto = new ViajeSencilloDTO();
