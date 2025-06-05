@@ -26,7 +26,7 @@ public class Viaje {
     @Id
     @SequenceGenerator (name="experience_id_sequence", sequenceName = "experience_id_sequence", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "experience_id_sequence")
-    private Long experienceId;
+    private Long id;
     
     @Column (name="Título")
     @NotBlank
@@ -86,6 +86,11 @@ public class Viaje {
     @JoinColumn(name = "transporte_id", nullable = false)
     private Transporte transporte;
 
-    public Viaje(){};
+    public Viaje(){}
+
+    public Object getTipoTransporte() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTipoTransporte'");
+    };
 
 }

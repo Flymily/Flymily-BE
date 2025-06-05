@@ -13,11 +13,12 @@ import lombok.Setter;
 @Getter @Setter
 
 public class ViajeSencilloDTO {
-    private Integer experienceId;
+    private Long id;
+    private String title;
     private Integer numAdultos;
     private Integer numNinos;
     private Integer edad;
     private LocalDate fechadeIda;
-    private LocalDate fechaDeVuelta;
+    private LocalDate fechadeVuelta;
 
 }
