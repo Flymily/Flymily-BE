@@ -49,6 +49,7 @@ mvn spring-boot:run
 La API estará disponible en: http://localhost:8080.
 
 🔍 Estructura del Proyecto
+
 src/
 
 ├── main/
