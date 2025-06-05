@@ -4,6 +4,7 @@
 
 
 Backend Flymily (Spring Boot)
+
 📌 Descripción del Proyecto
 Backend de Flymily, un buscador de viajes especializado en familias. Desarrollado con Spring Boot y PostgreSQL, proporciona APIs para gestionar:
 
@@ -49,17 +50,29 @@ La API estará disponible en: http://localhost:8080.
 
 🔍 Estructura del Proyecto
 src/
+
 ├── main/
+
 │   ├── java/com/flymily/
+
 │   │   ├── controller/      # Controladores REST
+
 │   │   ├── model/           # Entidades JPA
+
 │   │   ├── repository/      # Repositorios
+
 │   │   ├── service/         # Lógica de negocio
+
 │   │   └── config/          # Configuraciones
+
 │   └── resources/
+
 │       ├── application.properties
+
 │       └── data.sql         # Datos iniciales
+
 📚 Endpoints Disponibles
+
 Autenticación
 Método	Endpoint	Descripción
 POST	/api/auth/login	Login de administradores
@@ -73,6 +86,7 @@ POST	/api/transportes	Crear transporte (Admin)
 Usuarios
 Método	Endpoint	Descripción
 POST	/api/usuarios/registro	Registrar nuevo usuario
+
 🔧 Variables de Entorno
 Configura en application.properties:
 
@@ -114,7 +128,9 @@ Para producción:
 bash
 mvn clean package
 java -jar target/flymily-backend-0.0.1-SNAPSHOT.jar
+
 📄 Licencia
+
 MIT License © 2023 [Flymily Team]
 
 
