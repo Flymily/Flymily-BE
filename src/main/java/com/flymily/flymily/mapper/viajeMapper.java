@@ -37,4 +37,3 @@ public ViajeSencilloDTO toDTO(Viaje viaje) {
 
     }
 }
-

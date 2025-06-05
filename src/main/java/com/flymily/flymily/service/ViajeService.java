@@ -1,5 +1,6 @@
 package com.flymily.flymily.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -97,5 +98,9 @@ public class ViajeService {
 
     return new ResponseEntity<>(viajeRepository.save(viaje), HttpStatus.CREATED);
 }
-    
+
+    public List<Viaje> getAllViajes(){
+        return this.viajeRepository.findAll();
+    }
+
 }

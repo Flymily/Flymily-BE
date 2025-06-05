@@ -1,6 +1,9 @@
 package com.flymily.flymily.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,9 +31,11 @@ public class Localidad {
     private String ciudad;
 
     @OneToMany(mappedBy = "localidadSalida")
+    @JsonIgnore
     private List<Viaje> viajeDesde;
     
     @OneToMany(mappedBy = "localidadDestino")
+    @JsonIgnore
     private List<Viaje> viajeHacia;
 
     public Localidad() {
