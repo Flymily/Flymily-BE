@@ -1,5 +1,7 @@
 package com.flymily.flymily.service;
 
+import com.flymily.flymily.dto.LoginDTO;
+import com.flymily.flymily.exceptions.InvalidCredentialsException;
 import com.flymily.flymily.model.Usuario;
 import com.flymily.flymily.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +41,10 @@ public class UsuarioService {
     public Optional<Usuario> findByUsername(String username) {
         return usuarioRepository.findByUsername(username);
     }
+
+    public Usuario authenticate(LoginDTO loginDTO) {
+        return usuarioRepository.findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword())
+                .orElseThrow(() -> new InvalidCredentialsException("username o contraseña incorrecto(s)"));
+    }
+
 }
