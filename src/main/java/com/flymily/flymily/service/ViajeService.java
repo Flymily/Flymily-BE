@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.flymily.flymily.exceptions.TituloYaExisteException;
 import com.flymily.flymily.model.Localidad;
 import com.flymily.flymily.model.TipoViaje;
 import com.flymily.flymily.model.Transporte;
@@ -90,6 +92,10 @@ public class ViajeService {
         nuevoTransporte.setTipoTransporte(transporteNom);
         return transporteRepository.save(nuevoTransporte);
     });
+
+    if(viaje.getTitle() != null && viajeRepository.findbyTitle(viaje.getTitle()).isPresent()){
+        throw new TituloYaExisteException("Ya existe un viaje con el mismo título");
+    }
 
     viaje.setLocalidadSalida(localidadSalida);
     viaje.setLocalidadDestino(localidadDestino);
