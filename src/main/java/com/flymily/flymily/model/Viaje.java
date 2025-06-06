@@ -33,6 +33,11 @@ public class Viaje {
     @Size (max = 100, message = "(!) ERROR: el campo del título no puede tener más de 100 caracteres")
     private String title;
 
+    @Column (name="Descripción")
+    @NotBlank
+    @Size (max = 1000, message = "(!) ERROR: el campo de la descripción no puede tener más de 100 caracteres")
+    private String descripcion;
+
     @Column (name="N. de adultos")
     @NotNull (message = "(!) ERROR: el campo del número de adultos no puede estar vacío")
     @Min (value = 1, message = "(!) ERROR: el campo del número de adultos debe tener un valor mínimo de 1")
