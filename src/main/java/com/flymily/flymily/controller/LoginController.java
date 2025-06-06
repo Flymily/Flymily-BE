@@ -13,7 +13,7 @@ import com.flymily.flymily.service.UsuarioService;
 
 
 @RestController
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/auth")
 
 public class LoginController {
 
