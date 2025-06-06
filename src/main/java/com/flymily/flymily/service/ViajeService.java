@@ -2,10 +2,13 @@ package com.flymily.flymily.service;
 
 import java.util.List;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import com.flymily.flymily.dto.ViajeSencilloDTO;
+import com.flymily.flymily.exceptions.TipoViajeIdNotFoundException;
+import com.flymily.flymily.mapper.viajeMapper;
 import com.flymily.flymily.model.Localidad;
 import com.flymily.flymily.model.TipoViaje;
 import com.flymily.flymily.model.Transporte;
@@ -103,4 +106,18 @@ public class ViajeService {
         return this.viajeRepository.findAll();
     }
 
+public List<ViajeSencilloDTO> findViajesByTipoViajeId(Long tipoViajeId) {
+    TipoViaje tipoViaje = tipoViajeRepository.findById(tipoViajeId)
+        .orElseThrow(() -> new TipoViajeIdNotFoundException("No se han encontrado viajes"));
+    
+    return viajeRepository.findByTipoViaje(tipoViaje)
+            .stream()
+            .map(viaje -> viajeMapper.toDTO(viaje))
+            .collect(Collectors.toList());
 }
+
+
+
+}
+
+

@@ -2,12 +2,12 @@ package com.flymily.flymily.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-//import com.flymily.flymily.mapper.ViajeMapper;
+
+import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.service.ViajeService;
 import jakarta.validation.Valid;
 import java.util.List;
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RestController
 @RequestMapping ("api/v1/viaje")
 public class ViajeController {
-    
-    //@Autowired
-    //private ViajeMapper viajeMapper;
     
     private final ViajeService viajeService;
 
@@ -45,5 +42,11 @@ public class ViajeController {
         return viajeService.getAllViajes();
     }
     
+    @GetMapping("/tipo/{tipoViajeId}")
+    public ResponseEntity<List<ViajeSencilloDTO>> getViajesByTipoViaje(@PathVariable Long tipoViajeId) {
+        List<ViajeSencilloDTO> viajes = viajeService.findViajesByTipoViajeId(tipoViajeId);
+        return ResponseEntity.ok(viajes);
+    }
 
+    
 }

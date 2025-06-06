@@ -7,7 +7,7 @@ import com.flymily.flymily.model.Viaje;
 @Component
 public class viajeMapper {
 
-public ViajeSencilloDTO toDTO(Viaje viaje) {
+public static ViajeSencilloDTO toDTO(Viaje viaje) {
 
     ViajeSencilloDTO dto = new ViajeSencilloDTO();
         dto.setId(viaje.getId());
