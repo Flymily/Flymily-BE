@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.exceptions.TipoViajeIdNotFoundException;
+import com.flymily.flymily.exceptions.TipoViajeNotFoundException;
 import com.flymily.flymily.mapper.viajeMapper;
 import com.flymily.flymily.model.Localidad;
 import com.flymily.flymily.model.TipoViaje;
@@ -111,6 +112,16 @@ public List<ViajeSencilloDTO> findViajesByTipoViajeId(Long tipoViajeId) {
         .orElseThrow(() -> new TipoViajeIdNotFoundException("No se han encontrado viajes"));
     
     return viajeRepository.findByTipoViaje(tipoViaje)
+            .stream()
+            .map(viaje -> viajeMapper.toDTO(viaje))
+            .collect(Collectors.toList());
+}
+
+public List<ViajeSencilloDTO> findViajesByTipo(String tipoViaje) {
+    TipoViaje tipo = tipoViajeRepository.findByTipoViajeIgnoreCase(tipoViaje)
+        .orElseThrow(() -> new TipoViajeNotFoundException("No se han encontrado viajes"));
+    
+    return viajeRepository.findByTipoViaje(tipo)
             .stream()
             .map(viaje -> viajeMapper.toDTO(viaje))
             .collect(Collectors.toList());

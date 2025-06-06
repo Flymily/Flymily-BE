@@ -48,5 +48,13 @@ public class ViajeController {
         return ResponseEntity.ok(viajes);
     }
 
-    
+    @GetMapping("/tipo/{tipoViaje}")
+    public ResponseEntity<List<ViajeSencilloDTO>> getViajesByTipo(
+        @PathVariable String tipoViaje) {
+        List<ViajeSencilloDTO> viajes = viajeService.findViajesByTipo(tipoViaje);
+        return ResponseEntity.ok(viajes);
+}
+
+
+
 }
