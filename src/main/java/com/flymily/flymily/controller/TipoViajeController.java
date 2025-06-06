@@ -1,7 +1,7 @@
 package com.flymily.flymily.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.flymily.flymily.dto.TipoViajeDTO;
 import com.flymily.flymily.service.TipoViajeService;
 
@@ -34,9 +35,8 @@ public class TipoViajeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TipoViajeDTO> getTipoViajeById(@PathVariable Long id) {
-        Optional<TipoViajeDTO> tipo = tipoViajeService.getTipoViajeById(id);
-        return tipo.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        TipoViajeDTO tipo = tipoViajeService.getTipoViajeById(id);
+        return new ResponseEntity<>(tipo, HttpStatus.OK);
     }
 
     @PostMapping
@@ -49,23 +49,20 @@ public class TipoViajeController {
     public ResponseEntity<TipoViajeDTO> updateTipoViaje(
             @PathVariable Long id,
             @RequestBody TipoViajeDTO tipoViajeDTO) {
-        Optional<TipoViajeDTO> updatedTipo = tipoViajeService.updateTipoViaje(id, tipoViajeDTO);
-        return updatedTipo.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        TipoViajeDTO updatedTipo = tipoViajeService.updateTipoViaje(id, tipoViajeDTO);
+        return new ResponseEntity<>(updatedTipo, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTipoViaje(@PathVariable Long id) {
-        boolean deleted = tipoViajeService.deleteTipoViaje(id);
-        return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
-                    : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        tipoViajeService.deleteTipoViaje(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/buscar")
     public ResponseEntity<TipoViajeDTO> findByViaje(
             @RequestParam String viaje) {
-        Optional<TipoViajeDTO> tipo = tipoViajeService.findByTipoViaje(viaje);
-        return tipo.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        TipoViajeDTO tipo = tipoViajeService.findByTipoViaje(viaje);
+        return new ResponseEntity<>(tipo, HttpStatus.OK);
     }
 }
