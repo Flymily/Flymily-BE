@@ -9,6 +9,7 @@ import com.flymily.flymily.model.Viaje;
 @Repository
 public interface ViajeRepository extends JpaRepository<Viaje, Integer>{
 
-    Optional<Localidad> findbyTitle(String title);
+    Optional<Localidad> findByTitleIgnoreCase(String title);
+    Optional<Localidad> findByDescriptionIgnoreCase(String title);
     
 }
