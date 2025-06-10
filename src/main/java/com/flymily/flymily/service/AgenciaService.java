@@ -56,12 +56,18 @@ public class AgenciaService {
             throw new DuplicateResourceException(
                 "Ya existe una agencia con el nombre: " + agenciaDTO.getNombre());
         }
-        }
 
         Agencia nuevaAgencia = convertToEntity(agenciaDTO);
         Agencia agenciaGuardada = agenciaRepository.save(nuevaAgencia);
         return convertToDTO(agenciaGuardada);
     }
+
+   @Transactional
+    public void deleteAgencia(Long id) {
+    Agencia agencia = agenciaRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("No se encontró la agencia con ID: " + id));
+    agenciaRepository.delete(agencia);
+  }
 
     @Transactional
     public AgenciaDTO updateAgencia(Long id, AgenciaDTO agenciaDTO) {
@@ -72,5 +78,13 @@ public class AgenciaService {
         // Verificar si el nuevo nombre ya existe (excluyendo la agencia actual)
         if (!agenciaExistente.getNombre().equalsIgnoreCase(agenciaDTO.getNombre().trim()) &&
             agenciaRepository.existsByNombreIgnoreCase(agenciaDTO.getNombre().trim())) {
-            throw new DuplicateResourceException(
-                "Ya existe otra agencia con el nombre: " + agenciaDTO.getNombre
+                        throw new DuplicateResourceException(
+                            "Ya existe otra agencia con el nombre: " + agenciaDTO.getNombre());
+                    }
+            
+                    agenciaExistente.setNombre(agenciaDTO.getNombre().trim());
+                    Agencia agenciaActualizada = agenciaRepository.save(agenciaExistente);
+                    return convertToDTO(agenciaActualizada);
+                }
+            
+            }
