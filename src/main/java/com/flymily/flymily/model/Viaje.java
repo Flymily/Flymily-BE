@@ -1,12 +1,16 @@
 package com.flymily.flymily.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -90,6 +94,14 @@ public class Viaje {
     @ManyToOne
     @JoinColumn(name = "agencia_id", nullable = false)
     private Agencia agencia;
+
+    @ManyToMany
+    @JoinTable(
+        name = "viaje_edad_rango",
+        joinColumns = @JoinColumn(name = "viaje_id"),
+        inverseJoinColumns = @JoinColumn(name = "edad_rango_id")
+    )
+    private Set<EdadRango> edadRangos = new HashSet<>();
 
     public Viaje(){}
 
