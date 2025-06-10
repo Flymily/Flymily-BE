@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.flymily.flymily.exceptions.TituloYaExisteException;
 import com.flymily.flymily.model.Localidad;
 import com.flymily.flymily.model.TipoViaje;
@@ -25,7 +24,10 @@ public class ViajeService {
     private final TipoViajeRepository tipoViajeRepository;
     private final TransporteRepository transporteRepository;
 
-    public ViajeService (ViajeRepository viajeRepository, LocalidadRepository localidadRepository, TipoViajeRepository tipoViajeRepository, TransporteRepository transporteRepository) {
+    public ViajeService (ViajeRepository viajeRepository, 
+    LocalidadRepository localidadRepository, 
+    TipoViajeRepository tipoViajeRepository, 
+    TransporteRepository transporteRepository) {
         this.viajeRepository = viajeRepository;
         this.localidadRepository = localidadRepository;
         this.tipoViajeRepository = tipoViajeRepository;
@@ -113,4 +115,6 @@ public class ViajeService {
         return this.viajeRepository.findAll();
     }
 
+
+    
 }
