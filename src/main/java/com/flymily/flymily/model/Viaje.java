@@ -91,6 +91,10 @@ public class Viaje {
     @JoinColumn(name = "transporte_id", nullable = false)
     private Transporte transporte;
 
+    @ManyToOne
+    @JoinColumn(name = "agencia_id", nullable = false)
+    private Agencia agencia;
+
     public Viaje(){}
 
 }

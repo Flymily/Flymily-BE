@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.flymily.flymily.exceptions.TituloYaExisteException;
+import com.flymily.flymily.model.Agencia;
 import com.flymily.flymily.model.Localidad;
 import com.flymily.flymily.model.TipoViaje;
 import com.flymily.flymily.model.Transporte;
 import com.flymily.flymily.model.Viaje;
+import com.flymily.flymily.repository.AgenciaRepository;
 import com.flymily.flymily.repository.LocalidadRepository;
 import com.flymily.flymily.repository.TipoViajeRepository;
 import com.flymily.flymily.repository.TransporteRepository;
@@ -18,6 +20,8 @@ import com.flymily.flymily.repository.ViajeRepository;
 
 @Service
 public class ViajeService {
+
+    private final AgenciaRepository agenciaRepository;
     
     private final ViajeRepository viajeRepository;
     private final LocalidadRepository localidadRepository;
@@ -27,11 +31,13 @@ public class ViajeService {
     public ViajeService (ViajeRepository viajeRepository, 
     LocalidadRepository localidadRepository, 
     TipoViajeRepository tipoViajeRepository, 
-    TransporteRepository transporteRepository) {
+    TransporteRepository transporteRepository,
+    AgenciaRepository agenciaRepository) {
         this.viajeRepository = viajeRepository;
         this.localidadRepository = localidadRepository;
         this.tipoViajeRepository = tipoViajeRepository;
         this.transporteRepository = transporteRepository;
+        this.agenciaRepository = agenciaRepository;
     }
 
     public ResponseEntity<Viaje> createViaje(
@@ -41,7 +47,8 @@ public class ViajeService {
         String ciudadDestino,
         String paisDestino,
         String tipoViajeNom,
-        String transporteNom) {
+        String transporteNom,
+        String agenciaNom) {
 
         Optional<Localidad> localidadSalidaOptional = localidadRepository
             .findAll()
@@ -95,6 +102,18 @@ public class ViajeService {
         return transporteRepository.save(nuevoTransporte);
         });
 
+        Optional<Agencia> agenciaOptional = agenciaRepository
+            .findAll()
+            .stream()
+            .filter(a -> a.getNombre().equalsIgnoreCase(agenciaNom))
+            .findFirst();
+
+        Agencia agencia = agenciaOptional.orElseGet(() -> {
+            Agencia nuevaAgencia = new Agencia();
+            nuevaAgencia.setNombre(agenciaNom);
+            return agenciaRepository.save(nuevaAgencia);
+        });
+
         if(viaje.getTitle() != null && viajeRepository.findByTitleIgnoreCase(viaje.getTitle()).isPresent()){
             throw new TituloYaExisteException("Ya existe un viaje con el mismo título");
         }
@@ -107,6 +126,7 @@ public class ViajeService {
         viaje.setLocalidadDestino(localidadDestino);
         viaje.setTipoViaje(tipoViaje);
         viaje.setTransporte(transporte);
+        viaje.setAgencia(agencia);
 
         return new ResponseEntity<>(viajeRepository.save(viaje), HttpStatus.CREATED);
     }
