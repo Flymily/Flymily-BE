@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +15,12 @@ import lombok.Setter;
 @Getter @Setter
 public class Agencia {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator (name="agencia_id_sequence", sequenceName = "agencia_id_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agencia_id_sequence")
     private Long id;
 
     @Column(nullable = false, length = 100, unique = true)
     private String nombre;
 
-   
+
 }
