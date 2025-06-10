@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.flymily.flymily.dto.LoginDTO;
-import com.flymily.flymily.dto.RegisterDTO;
 import com.flymily.flymily.exceptions.InvalidCredentialsException;
-import com.flymily.flymily.exceptions.UserAlreadyExistsException;
 import com.flymily.flymily.model.Usuario;
 import com.flymily.flymily.service.UsuarioService;
+
 import jakarta.validation.Valid;
 
 
@@ -24,17 +23,6 @@ public class LoginController {
 
     LoginController(UsuarioService usuarioService) {
         this.usuarioService = usuarioService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterDTO registerDTO) {
-        try {
-            Usuario newUser = usuarioService.register(registerDTO);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Usuario registrado exitosamente: " + newUser.getUsername());
-        } catch (UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
     }
 
     @PostMapping("/login")
