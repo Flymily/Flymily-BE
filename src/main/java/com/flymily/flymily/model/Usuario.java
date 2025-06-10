@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 @Entity
@@ -26,7 +27,7 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false, length = 20)
-    private String rol;
+    @Email(message = "(!) ERROR: el email debe tener un formato válido")
+    private String email;
 
 }
