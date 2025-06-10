@@ -135,6 +135,8 @@ public class ViajeService {
         return this.viajeRepository.findAll();
     }
 
-
+    public List<Viaje> findViajesByAge(Integer age) {
+        return viajeRepository.findByAge(age);
+    }
     
 }

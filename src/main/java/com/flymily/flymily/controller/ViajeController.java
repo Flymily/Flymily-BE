@@ -48,4 +48,11 @@ public class ViajeController {
     public List<Viaje> getAllViajes(){
         return viajeService.getAllViajes();
     }
+
+    @GetMapping("/by-age/{age}")
+    public List<Viaje> getViajesByAge(@PathVariable Integer age) {
+        return viajeService.findViajesByAge(age);
+    }
+
+
 }
