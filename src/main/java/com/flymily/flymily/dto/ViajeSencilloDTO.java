@@ -16,7 +16,6 @@ public class ViajeSencilloDTO {
     private Long id;
     private Integer numAdultos;
     private Integer numNinos;
-    private Integer edad;
     private LocalDate fechadeIda;
     private LocalDate fechadeVuelta;
 

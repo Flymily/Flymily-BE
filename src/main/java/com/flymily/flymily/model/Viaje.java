@@ -48,10 +48,6 @@ public class Viaje {
     @Min (value = 1, message = "(!) ERROR: el campo del número de niños debe tener un valor mínimo de 1")
     private Integer numNinos;
 
-    @Column (name="Edad")
-    @NotNull (message = "(!) ERROR: el campo de las edades no puede estar vacío")
-    private Integer edad;
-
     @Column (name = "Fecha de Ida")
     @NotNull(message = "(!) ERROR: el campo de la fecha de ida no puede estar vacío")
     private LocalDate fechaDeIda;

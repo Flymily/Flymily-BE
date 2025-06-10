@@ -13,7 +13,6 @@ public ViajeSencilloDTO toDTO(Viaje viaje) {
         dto.setId(viaje.getId());
         dto.setNumAdultos(viaje.getNumAdultos());
         dto.setNumNinos(viaje.getNumNinos());
-        dto.setEdad(viaje.getEdad());
         dto.setFechadeIda(viaje.getFechaDeIda());
         dto.setFechadeVuelta(viaje.getFechaDeVuelta());
         
@@ -26,8 +25,7 @@ public ViajeSencilloDTO toDTO(Viaje viaje) {
     viaje.setId(dto.getId());
     viaje.setNumAdultos(dto.getNumAdultos());
     viaje.setNumNinos(dto.getNumNinos());
-    viaje.setEdad(dto.getEdad());
-    viaje.setEdad(dto.getEdad());
+
     viaje.setFechaDeIda(dto.getFechadeIda());
     viaje.setFechaDeVuelta(dto.getFechadeVuelta());
     
