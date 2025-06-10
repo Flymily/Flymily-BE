@@ -9,5 +9,4 @@ import com.flymily.flymily.model.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByUsername(String username);
     boolean existsByUsername(String username);
-    Optional<Usuario> findByUsernameAndPassword(String username, String password);
 }

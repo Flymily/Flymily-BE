@@ -5,7 +5,7 @@ import com.flymily.flymily.exceptions.InvalidCredentialsException;
 import com.flymily.flymily.model.Usuario;
 import com.flymily.flymily.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
-// import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +14,9 @@ import java.util.Optional;
 @RequiredArgsConstructor 
 
 public class UsuarioService {
+
     private final UsuarioRepository usuarioRepository;
-    // private final PasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<Usuario> getAllUsuarios() {
         return usuarioRepository.findAll();
@@ -26,7 +27,8 @@ public class UsuarioService {
     }
 
     public Usuario saveUsuario(Usuario usuario) {
-        // usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        String hashedPassword = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(hashedPassword);
         return usuarioRepository.save(usuario);
     }
 
@@ -43,8 +45,14 @@ public class UsuarioService {
     }
 
     public Usuario authenticate(LoginDTO loginDTO) {
-        return usuarioRepository.findByUsernameAndPassword(loginDTO.getUsername(), loginDTO.getPassword())
-                .orElseThrow(() -> new InvalidCredentialsException("username o contraseña incorrecto(s)"));
+        Usuario usuario = usuarioRepository.findByUsername(loginDTO.getUsername())
+            .orElseThrow(() -> new InvalidCredentialsException("username o contraseña incorrecto(s)"));
+
+        if (!passwordEncoder.matches(loginDTO.getPassword(), usuario.getPassword())) {
+            throw new InvalidCredentialsException("username o contraseña incorrecto(s)");
+        }
+
+        return usuario;
     }
 
 }
