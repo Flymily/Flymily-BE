@@ -39,3 +39,4 @@ public class EdadRango {
         return age >= edadMin && age <= edadMax;
     }
 }
+
