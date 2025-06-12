@@ -1,12 +1,16 @@
 package com.flymily.flymily.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
@@ -33,6 +37,11 @@ public class Viaje {
     @Size (max = 100, message = "(!) ERROR: el campo del título no puede tener más de 100 caracteres")
     private String title;
 
+    @Column (name="Descripción")
+    @NotBlank
+    @Size (max = 1000, message = "(!) ERROR: el campo de la descripción no puede tener más de 100 caracteres")
+    private String description;
+
     @Column (name="N. de adultos")
     @NotNull (message = "(!) ERROR: el campo del número de adultos no puede estar vacío")
     @Min (value = 1, message = "(!) ERROR: el campo del número de adultos debe tener un valor mínimo de 1")
@@ -42,10 +51,6 @@ public class Viaje {
     @NotNull (message = "(!) ERROR: el campo del número de niños no puede estar vacío")
     @Min (value = 1, message = "(!) ERROR: el campo del número de niños debe tener un valor mínimo de 1")
     private Integer numNinos;
-
-    @Column (name="Edad")
-    @NotNull (message = "(!) ERROR: el campo de las edades no puede estar vacío")
-    private Integer edad;
 
     @Column (name = "Fecha de Ida")
     @NotNull(message = "(!) ERROR: el campo de la fecha de ida no puede estar vacío")
@@ -85,6 +90,18 @@ public class Viaje {
     @ManyToOne
     @JoinColumn(name = "transporte_id", nullable = false)
     private Transporte transporte;
+
+    @ManyToOne
+    @JoinColumn(name = "agencia_id", nullable = false)
+    private Agencia agencia;
+
+    @ManyToMany
+    @JoinTable(
+        name = "viaje_edad_rango",
+        joinColumns = @JoinColumn(name = "viaje_id"),
+        inverseJoinColumns = @JoinColumn(name = "edad_rango_id")
+    )
+    private Set<EdadRango> edadRangos = new HashSet<>();
 
     public Viaje(){}
 

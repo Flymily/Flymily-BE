@@ -1,9 +1,7 @@
 package com.flymily.flymily.model;
 
 import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,24 +14,20 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "tipoViaje")
+@Table(name = "agencia")
 @Getter @Setter
+public class Agencia {
 
-public class TipoViaje {
-    
     @Id
-    @SequenceGenerator (name="tipoViaje_id_sequence", sequenceName = "tipoViaje_id_sequence", allocationSize = 1, initialValue = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tipoViaje_id_sequence")
+    @SequenceGenerator (name="agencia_id_sequence", sequenceName = "agencia_id_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "agencia_id_sequence")
     private Long id;
 
-    @Column(nullable = false, length = 50, unique = true)
-    private String tipoViaje;
+    @Column(nullable = false, length = 100, unique = true)
+    private String nombre;
 
-    @OneToMany(mappedBy = "tipoViaje")
+    @OneToMany(mappedBy = "agencia")
     @JsonIgnore
     private List<Viaje> viajes;
-
-    public TipoViaje() {
-    }
 
 }

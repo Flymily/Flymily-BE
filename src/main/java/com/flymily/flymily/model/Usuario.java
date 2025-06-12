@@ -5,7 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 @Entity
@@ -17,7 +19,8 @@ import lombok.*;
 public class Usuario {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator (name="user_id_sequence", sequenceName = "user_id_sequence", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence")
     private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -26,7 +29,7 @@ public class Usuario {
     @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false, length = 20)
-    private String rol;
+    @Email(message = "(!) ERROR: el email debe tener un formato válido")
+    private String email;
 
 }

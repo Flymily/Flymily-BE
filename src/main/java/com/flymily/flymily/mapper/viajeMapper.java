@@ -11,10 +11,8 @@ public static ViajeSencilloDTO toDTO(Viaje viaje) {
 
     ViajeSencilloDTO dto = new ViajeSencilloDTO();
         dto.setId(viaje.getId());
-        dto.setTitle(viaje.getTitle());
         dto.setNumAdultos(viaje.getNumAdultos());
         dto.setNumNinos(viaje.getNumNinos());
-        dto.setEdad(viaje.getEdad());
         dto.setFechadeIda(viaje.getFechaDeIda());
         dto.setFechadeVuelta(viaje.getFechaDeVuelta());
         
@@ -25,11 +23,9 @@ public static ViajeSencilloDTO toDTO(Viaje viaje) {
 
     Viaje viaje = new Viaje();
     viaje.setId(dto.getId());
-    viaje.setTitle(dto.getTitle());
     viaje.setNumAdultos(dto.getNumAdultos());
     viaje.setNumNinos(dto.getNumNinos());
-    viaje.setEdad(dto.getEdad());
-    viaje.setEdad(dto.getEdad());
+
     viaje.setFechaDeIda(dto.getFechadeIda());
     viaje.setFechaDeVuelta(dto.getFechadeVuelta());
     

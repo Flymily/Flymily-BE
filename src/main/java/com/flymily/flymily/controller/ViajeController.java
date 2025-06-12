@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping ("api/v1/viaje")
+@RequestMapping("api/viajes")
 public class ViajeController {
     
     private final ViajeService viajeService;
@@ -24,7 +24,7 @@ public class ViajeController {
         this.viajeService = viajeService;
     }
 
-    @PostMapping("/{ciudadSalida}/{paisSalida}/{ciudadDestino}/{paisDestino}/{tipoViajeNom}/{transporteNom}")
+    @PostMapping("/{ciudadSalida}/{paisSalida}/{ciudadDestino}/{paisDestino}/{tipoViajeNom}/{transporteNom}/{agenciaNombre}")
     public ResponseEntity<Viaje> createViaje(
             @Valid @RequestBody Viaje viaje,
             @PathVariable String ciudadSalida,
@@ -32,9 +32,18 @@ public class ViajeController {
             @PathVariable String ciudadDestino,
             @PathVariable String paisDestino,
             @PathVariable String tipoViajeNom,
-            @PathVariable String transporteNom) {
+            @PathVariable String transporteNom,
+            @PathVariable String agenciaNombre) {
 
-        return viajeService.createViaje(viaje, ciudadSalida, paisSalida, ciudadDestino, paisDestino, tipoViajeNom, transporteNom);
+        return viajeService.createViaje(
+            viaje, 
+            ciudadSalida, 
+            paisSalida, 
+            ciudadDestino, 
+            paisDestino, 
+            tipoViajeNom, 
+            transporteNom,
+            agenciaNombre);
     }
 
     @GetMapping
@@ -55,6 +64,12 @@ public class ViajeController {
         return ResponseEntity.ok(viajes);
 }
 
+
+
+    @GetMapping("/by-age/{age}")
+    public List<Viaje> getViajesByAge(@PathVariable Integer age) {
+        return viajeService.findViajesByAge(age);
+    }
 
 
 }
