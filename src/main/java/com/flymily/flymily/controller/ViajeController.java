@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -52,5 +53,10 @@ public class ViajeController {
         return viajeService.findViajesByAge(edad);
     }
 
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateViaje(@PathVariable Long id, @RequestBody CreateViajeRequestDTO dto) {
+        return viajeService.updateViaje(id, dto);
+    }
 
 }
