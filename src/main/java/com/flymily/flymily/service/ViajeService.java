@@ -76,7 +76,7 @@ public class ViajeService {
                 loc.setCiudad(dto.getCiudadSalida());
                 loc.setPais(dto.getPaisSalida());
                 return localidadRepository.save(loc);
-        });
+            });
 
         Localidad localidadDestino = localidadRepository.findAll().stream()
             .filter(loc -> loc.getCiudad().equalsIgnoreCase(dto.getCiudadDestino()) && loc.getPais().equalsIgnoreCase(dto.getPaisDestino()))
@@ -86,7 +86,7 @@ public class ViajeService {
                 loc.setCiudad(dto.getCiudadDestino());
                 loc.setPais(dto.getPaisDestino());
                 return localidadRepository.save(loc);
-        });
+            });
 
         TipoViaje tipoViaje = tipoViajeRepository.findAll().stream()
             .filter(t -> t.getTipoViaje().equalsIgnoreCase(dto.getTipoViaje()))
@@ -95,7 +95,7 @@ public class ViajeService {
                 TipoViaje loc = new TipoViaje();
                 loc.setTipoViaje(dto.getTipoViaje());
                 return tipoViajeRepository.save(loc);
-        });
+            });
 
         Transporte transporte = transporteRepository.findAll().stream()
             .filter(t -> t.getTipoTransporte().equalsIgnoreCase(dto.getTransporte()))
@@ -104,7 +104,7 @@ public class ViajeService {
                 Transporte loc = new Transporte();
                 loc.setTipoTransporte(dto.getTransporte());
                 return transporteRepository.save(loc);
-        });
+            });
 
         Agencia agencia = agenciaRepository.findAll().stream()
             .filter(a -> a.getNombre().equalsIgnoreCase(dto.getAgencia()))
@@ -113,7 +113,7 @@ public class ViajeService {
                 Agencia loc = new Agencia();
                 loc.setNombre(dto.getAgencia());
                 return agenciaRepository.save(loc);
-        });
+            });
 
         Viaje viaje = new Viaje();
         viaje.setTitle(dto.getTitle());
@@ -145,26 +145,117 @@ public class ViajeService {
         return viajeRepository.findByAge(age);
     }
     
-public List<ViajeSencilloDTO> findViajesByTipoViajeId(Long tipoViajeId) {
-    TipoViaje tipoViaje = tipoViajeRepository.findById(tipoViajeId)
-        .orElseThrow(() -> new TipoViajeIdNotFoundException("No se han encontrado viajes"));
-    
-    return viajeRepository.findByTipoViaje(tipoViaje)
-            .stream()
-            .map(viaje -> viajeMapper.toDTO(viaje))
-            .collect(Collectors.toList());
-}
+    public List<ViajeSencilloDTO> findViajesByTipoViajeId(Long tipoViajeId) {
+        TipoViaje tipoViaje = tipoViajeRepository.findById(tipoViajeId)
+            .orElseThrow(() -> new TipoViajeIdNotFoundException("No se han encontrado viajes"));
+        
+        return viajeRepository.findByTipoViaje(tipoViaje)
+                .stream()
+                .map(viaje -> viajeMapper.toDTO(viaje))
+                .collect(Collectors.toList());
+    }
 
-public List<ViajeSencilloDTO> findViajesByTipo(String tipoViaje) {
-    TipoViaje tipo = tipoViajeRepository.findByTipoViajeIgnoreCase(tipoViaje)
-        .orElseThrow(() -> new TipoViajeNotFoundException("No se han encontrado viajes"));
-    
-    return viajeRepository.findByTipoViaje(tipo)
-            .stream()
-            .map(viaje -> viajeMapper.toDTO(viaje))
-            .collect(Collectors.toList());
-}
+    public List<ViajeSencilloDTO> findViajesByTipo(String tipoViaje) {
+        TipoViaje tipo = tipoViajeRepository.findByTipoViajeIgnoreCase(tipoViaje)
+            .orElseThrow(() -> new TipoViajeNotFoundException("No se han encontrado viajes"));
+        
+        return viajeRepository.findByTipoViaje(tipo)
+                .stream()
+                .map(viaje -> viajeMapper.toDTO(viaje))
+                .collect(Collectors.toList());
+    }
 
-}
+    public ResponseEntity<String> updateViaje(Long id, CreateViajeRequestDTO dto) {
+        Viaje viaje = viajeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Viaje no encontrado con id: " + id));
+
+        if (dto.getTitle() != null) viaje.setTitle(dto.getTitle());
+        if (dto.getDescription() != null) viaje.setDescription(dto.getDescription());
+        if (dto.getNumAdultos() != null) viaje.setNumAdultos(dto.getNumAdultos());
+        if (dto.getNumNinos() != null) viaje.setNumNinos(dto.getNumNinos());
+        if (dto.getFechaDeIda() != null) viaje.setFechaDeIda(dto.getFechaDeIda());
+        if (dto.getFechaDeVuelta() != null) viaje.setFechaDeVuelta(dto.getFechaDeVuelta());
+        if (dto.getPresupuesto() != null) viaje.setPresupuesto(dto.getPresupuesto());
+
+        viaje.setDiscapacidadMovilRed(dto.isDiscapacidadMovilRed());
+        viaje.setGrupoOPrivado(dto.isGrupoOPrivado());
+        viaje.setOrganizadoOMedida(dto.isOrganizadoOMedida());
+
+        if (dto.getImgPath() != null) viaje.setImgPath(dto.getImgPath());
+
+        if (dto.getCiudadSalida() != null && dto.getPaisSalida() != null) {
+            Localidad salida = localidadRepository.findAll().stream()
+                .filter(loc -> loc.getCiudad().equalsIgnoreCase(dto.getCiudadSalida())
+                            && loc.getPais().equalsIgnoreCase(dto.getPaisSalida()))
+                .findFirst()
+                .orElseGet(() -> {
+                    Localidad loc = new Localidad();
+                    loc.setCiudad(dto.getCiudadSalida());
+                    loc.setPais(dto.getPaisSalida());
+                    return localidadRepository.save(loc);
+                });
+        }
+
+        if (dto.getCiudadDestino() != null && dto.getPaisDestino() != null) {
+            Localidad destino = localidadRepository.findAll().stream()
+                .filter(loc -> loc.getCiudad().equalsIgnoreCase(dto.getCiudadDestino())
+                            && loc.getPais().equalsIgnoreCase(dto.getPaisDestino()))
+                .findFirst()
+                .orElseGet(() -> {
+                    Localidad loc = new Localidad();
+                    loc.setCiudad(dto.getCiudadDestino());
+                    loc.setPais(dto.getPaisDestino());
+                    return localidadRepository.save(loc);
+                });
+        }
+
+        if (dto.getTipoViaje() != null) {
+            TipoViaje tipo = tipoViajeRepository.findAll().stream()
+                .filter(t -> t.getTipoViaje().equalsIgnoreCase(dto.getTipoViaje()))
+                .findFirst()
+            .orElseGet(() -> {
+                TipoViaje loc = new TipoViaje();
+                loc.setTipoViaje(dto.getTipoViaje());
+                return tipoViajeRepository.save(loc);
+            });
+        }
+
+        if (dto.getTransporte() != null) {
+            Transporte trans = transporteRepository.findAll().stream()
+                .filter(t -> t.getTipoTransporte().equalsIgnoreCase(dto.getTransporte()))
+                .findFirst()
+                .orElseGet(() -> {
+                Transporte loc = new Transporte();
+                loc.setTipoTransporte(dto.getTransporte());
+                return transporteRepository.save(loc);
+            });
+        }
+
+        if (dto.getAgencia() != null) {
+            Agencia agencia = agenciaRepository.findAll().stream()
+                .filter(a -> a.getNombre().equalsIgnoreCase(dto.getAgencia()))
+                .findFirst()
+                .orElseGet(() -> {
+                Agencia loc = new Agencia();
+                loc.setNombre(dto.getAgencia());
+                return agenciaRepository.save(loc);
+            });
+        }
+
+        if (dto.getEdadRangos() != null && !dto.getEdadRangos().isEmpty()) {
+            Set<EdadRango> edadRangos = dto.getEdadRangos().stream()
+                .map(desc -> edadRangoRepository.findByDescripcionIgnoreCase(desc)
+                    .orElseThrow(() -> new RuntimeException("EdadRango no encontrado: " + desc)))
+                .collect(Collectors.toSet());
+            viaje.setEdadRangos(edadRangos);
+        }
+
+        viajeRepository.save(viaje);
+        return new ResponseEntity<>("Viaje actualizado correctamente", HttpStatus.OK);
+    }
+
+
+    }
+
 
 
