@@ -3,7 +3,7 @@ package com.flymily.flymily.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.flymily.flymily.dto.CreateViajeRequest;
+import com.flymily.flymily.dto.CreateViajeRequestDTO;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.service.ViajeService;
@@ -25,7 +25,7 @@ public class ViajeController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Viaje> crearViaje(@RequestBody CreateViajeRequest dto) {
+    public ResponseEntity<Viaje> crearViaje(@RequestBody CreateViajeRequestDTO dto) {
         return viajeService.createViaje(dto);
     }
 

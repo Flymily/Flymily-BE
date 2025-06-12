@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class CreateViajeRequest {
+public class CreateViajeRequestDTO {
 
     private String title;
     private String description;

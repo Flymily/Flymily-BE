@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.flymily.flymily.exceptions.TituloYaExisteException;
 import com.flymily.flymily.model.Agencia;
 import com.flymily.flymily.model.EdadRango;
-import com.flymily.flymily.dto.CreateViajeRequest;
+import com.flymily.flymily.dto.CreateViajeRequestDTO;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.exceptions.TipoViajeIdNotFoundException;
 import com.flymily.flymily.exceptions.TipoViajeNotFoundException;
@@ -50,7 +50,7 @@ public class ViajeService {
         this.edadRangoRepository = edadRangoRepository;
     }
 
-    public ResponseEntity<Viaje> createViaje(CreateViajeRequest dto) {
+    public ResponseEntity<Viaje> createViaje(CreateViajeRequestDTO dto) {
 
             if(dto.getTitle() != null && viajeRepository.findByTitleIgnoreCase(dto.getTitle()).isPresent()){
                 throw new TituloYaExisteException("Ya existe un viaje con el mismo título");
