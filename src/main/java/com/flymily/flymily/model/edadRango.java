@@ -24,13 +24,13 @@ public class EdadRango {
     @Column(name = "edad_max", nullable = false)
     private Integer edadMax;
     
-    @Column(name = "nombre", unique = true)
-    private String nombre;
+    @Column(name = "descripcion", unique = true)
+    private String descripcion;
     
-    public EdadRango(Integer edadMin, Integer edadMax, String nombre) {
+    public EdadRango(Integer edadMin, Integer edadMax, String descripcion) {
         this.edadMin = edadMin;
         this.edadMax = edadMax;
-        this.nombre = nombre;
+        this.descripcion = descripcion;
     }
     
     public EdadRango() {}
