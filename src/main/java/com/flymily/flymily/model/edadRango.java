@@ -12,7 +12,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "edad_rango")
 @Getter @Setter
-public class EdadRango {
+public class EdadRango { 
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +39,3 @@ public class EdadRango {
         return age >= edadMin && age <= edadMax;
     }
 }
-
