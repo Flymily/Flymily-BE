@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.flymily.flymily.model.Localidad;
-
 import com.flymily.flymily.model.TipoViaje;
 import com.flymily.flymily.model.Viaje;
 
@@ -19,5 +18,7 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long>{
     
     @Query("SELECT DISTINCT v FROM Viaje v JOIN v.edadRangos r WHERE :age BETWEEN r.edadMin AND r.edadMax")
     List<Viaje> findByAge(@Param("age") Integer age);
-List<Viaje> findByTipoViaje(TipoViaje tipoViaje);
+    List<Viaje> findByTipoViaje(TipoViaje tipoViaje);
+
+    
 }

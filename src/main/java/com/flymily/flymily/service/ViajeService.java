@@ -1,13 +1,16 @@
 package com.flymily.flymily.service;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.flymily.flymily.exceptions.TituloYaExisteException;
 import com.flymily.flymily.model.Agencia;
+import com.flymily.flymily.model.EdadRango;
+import com.flymily.flymily.dto.CreateViajeRequest;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.exceptions.TipoViajeIdNotFoundException;
 import com.flymily.flymily.exceptions.TipoViajeNotFoundException;
@@ -17,6 +20,7 @@ import com.flymily.flymily.model.TipoViaje;
 import com.flymily.flymily.model.Transporte;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.repository.AgenciaRepository;
+import com.flymily.flymily.repository.EdadRangoRepository;
 import com.flymily.flymily.repository.LocalidadRepository;
 import com.flymily.flymily.repository.TipoViajeRepository;
 import com.flymily.flymily.repository.TransporteRepository;
@@ -26,111 +30,109 @@ import com.flymily.flymily.repository.ViajeRepository;
 public class ViajeService {
 
     private final AgenciaRepository agenciaRepository;
-    
     private final ViajeRepository viajeRepository;
     private final LocalidadRepository localidadRepository;
     private final TipoViajeRepository tipoViajeRepository;
     private final TransporteRepository transporteRepository;
+    private final EdadRangoRepository edadRangoRepository;
 
     public ViajeService (ViajeRepository viajeRepository, 
     LocalidadRepository localidadRepository, 
     TipoViajeRepository tipoViajeRepository, 
     TransporteRepository transporteRepository,
-    AgenciaRepository agenciaRepository) {
+    AgenciaRepository agenciaRepository,
+    EdadRangoRepository edadRangoRepository) {
         this.viajeRepository = viajeRepository;
         this.localidadRepository = localidadRepository;
         this.tipoViajeRepository = tipoViajeRepository;
         this.transporteRepository = transporteRepository;
         this.agenciaRepository = agenciaRepository;
+        this.edadRangoRepository = edadRangoRepository;
     }
 
-    public ResponseEntity<Viaje> createViaje(
-        Viaje viaje,
-        String ciudadSalida,
-        String paisSalida,
-        String ciudadDestino,
-        String paisDestino,
-        String tipoViajeNom,
-        String transporteNom,
-        String agenciaNom) {
+    public ResponseEntity<Viaje> createViaje(CreateViajeRequest dto) {
 
-        Optional<Localidad> localidadSalidaOptional = localidadRepository
-            .findAll()
-            .stream()
-            .filter(loc -> loc.getCiudad().equalsIgnoreCase(ciudadSalida)
-                        && loc.getPais().equalsIgnoreCase(paisSalida))
-            .findFirst();
+            if(dto.getTitle() != null && viajeRepository.findByTitleIgnoreCase(dto.getTitle()).isPresent()){
+                throw new TituloYaExisteException("Ya existe un viaje con el mismo título");
+            }
+        
+            if(dto.getDescription() != null && viajeRepository.findByDescriptionIgnoreCase(dto.getDescription()).isPresent()){
+            throw new TituloYaExisteException("Ya existe un viaje con la misma descripción");
+            }
 
-        Localidad localidadSalida = localidadSalidaOptional.orElseGet(() -> {
-            Localidad nuevaLocalidad = new Localidad();
-            nuevaLocalidad.setCiudad(ciudadSalida);
-            nuevaLocalidad.setPais(paisSalida);
-            return localidadRepository.save(nuevaLocalidad);
-        });
-
-        Optional<Localidad> localidadDestinoOptional = localidadRepository
-                .findAll()
-                .stream()
-                .filter(loc -> loc.getCiudad().equalsIgnoreCase(ciudadDestino)
-                            && loc.getPais().equalsIgnoreCase(paisDestino))
-                .findFirst();
-
-        Localidad localidadDestino = localidadDestinoOptional.orElseGet(() -> {
-            Localidad nuevaLocalidad = new Localidad();
-            nuevaLocalidad.setCiudad(ciudadDestino);
-            nuevaLocalidad.setPais(paisDestino);
-            return localidadRepository.save(nuevaLocalidad);
-        });
-
-        Optional<TipoViaje> tipoViajeOptional = tipoViajeRepository
-                .findAll()
-                .stream()
-                .filter(t -> t.getTipoViaje().equalsIgnoreCase(tipoViajeNom))
-                .findFirst();
-
-            TipoViaje tipoViaje = tipoViajeOptional.orElseGet(() -> {
-                TipoViaje nuevoTipo = new TipoViaje();
-                nuevoTipo.setTipoViaje(tipoViajeNom);
-                return tipoViajeRepository.save(nuevoTipo);
-        });
-
-        Optional<Transporte> transporteOptional = transporteRepository
-            .findAll()
-            .stream()
-            .filter(t -> t.getTipoTransporte().equalsIgnoreCase(transporteNom))
-            .findFirst();
-
-        Transporte transporte = transporteOptional.orElseGet(() -> {
-        Transporte nuevoTransporte = new Transporte();
-        nuevoTransporte.setTipoTransporte(transporteNom);
-        return transporteRepository.save(nuevoTransporte);
-        });
-
-        Optional<Agencia> agenciaOptional = agenciaRepository
-            .findAll()
-            .stream()
-            .filter(a -> a.getNombre().equalsIgnoreCase(agenciaNom))
-            .findFirst();
-
-        Agencia agencia = agenciaOptional.orElseGet(() -> {
-            Agencia nuevaAgencia = new Agencia();
-            nuevaAgencia.setNombre(agenciaNom);
-            return agenciaRepository.save(nuevaAgencia);
-        });
-
-        if(viaje.getTitle() != null && viajeRepository.findByTitleIgnoreCase(viaje.getTitle()).isPresent()){
-            throw new TituloYaExisteException("Ya existe un viaje con el mismo título");
+        Set<EdadRango> edadRangos = new HashSet<>();
+        if (dto.getEdadRangos() != null && !dto.getEdadRangos().isEmpty()) {
+            edadRangos = dto.getEdadRangos().stream()
+                .map(desc -> edadRangoRepository.findByDescripcionIgnoreCase(desc)
+                .orElseThrow(() -> new RuntimeException("EdadRango no encontrado: " + desc)))
+                .collect(Collectors.toSet());
         }
 
-        if(viaje.getDescription() != null && viajeRepository.findByDescriptionIgnoreCase(viaje.getTitle()).isPresent()){
-        throw new TituloYaExisteException("Ya existe un viaje con la misma descripción");
-        }
+        Localidad localidadSalida = localidadRepository.findAll().stream()
+            .filter(loc -> loc.getCiudad().equalsIgnoreCase(dto.getCiudadSalida()) && loc.getPais().equalsIgnoreCase(dto.getPaisSalida()))
+            .findFirst()
+            .orElseGet(() -> {
+                Localidad loc = new Localidad();
+                loc.setCiudad(dto.getCiudadSalida());
+                loc.setPais(dto.getPaisSalida());
+                return localidadRepository.save(loc);
+        });
 
+        Localidad localidadDestino = localidadRepository.findAll().stream()
+            .filter(loc -> loc.getCiudad().equalsIgnoreCase(dto.getCiudadDestino()) && loc.getPais().equalsIgnoreCase(dto.getPaisDestino()))
+            .findFirst()
+            .orElseGet(() -> {
+                Localidad loc = new Localidad();
+                loc.setCiudad(dto.getCiudadDestino());
+                loc.setPais(dto.getPaisDestino());
+                return localidadRepository.save(loc);
+        });
+
+        TipoViaje tipoViaje = tipoViajeRepository.findAll().stream()
+            .filter(t -> t.getTipoViaje().equalsIgnoreCase(dto.getTipoViaje()))
+            .findFirst()
+            .orElseGet(() -> {
+                TipoViaje loc = new TipoViaje();
+                loc.setTipoViaje(dto.getTipoViaje());
+                return tipoViajeRepository.save(loc);
+        });
+
+        Transporte transporte = transporteRepository.findAll().stream()
+            .filter(t -> t.getTipoTransporte().equalsIgnoreCase(dto.getTransporte()))
+            .findFirst()
+            .orElseGet(() -> {
+                Transporte loc = new Transporte();
+                loc.setTipoTransporte(dto.getTransporte());
+                return transporteRepository.save(loc);
+        });
+
+        Agencia agencia = agenciaRepository.findAll().stream()
+            .filter(a -> a.getNombre().equalsIgnoreCase(dto.getAgencia()))
+            .findFirst()
+            .orElseGet(() -> {
+                Agencia loc = new Agencia();
+                loc.setNombre(dto.getAgencia());
+                return agenciaRepository.save(loc);
+        });
+
+        Viaje viaje = new Viaje();
+        viaje.setTitle(dto.getTitle());
+        viaje.setDescription(dto.getDescription());
+        viaje.setNumAdultos(dto.getNumAdultos());
+        viaje.setNumNinos(dto.getNumNinos());
+        viaje.setFechaDeIda(dto.getFechaDeIda());
+        viaje.setFechaDeVuelta(dto.getFechaDeVuelta());
+        viaje.setPresupuesto(dto.getPresupuesto());
+        viaje.setDiscapacidadMovilRed(dto.isDiscapacidadMovilRed());
+        viaje.setGrupoOPrivado(dto.isGrupoOPrivado());
+        viaje.setOrganizadoOMedida(dto.isOrganizadoOMedida());
+        viaje.setImgPath(dto.getImgPath());
         viaje.setLocalidadSalida(localidadSalida);
         viaje.setLocalidadDestino(localidadDestino);
         viaje.setTipoViaje(tipoViaje);
         viaje.setTransporte(transporte);
         viaje.setAgencia(agencia);
+        viaje.setEdadRangos(edadRangos);
 
         return new ResponseEntity<>(viajeRepository.save(viaje), HttpStatus.CREATED);
     }
@@ -162,8 +164,6 @@ public List<ViajeSencilloDTO> findViajesByTipo(String tipoViaje) {
             .map(viaje -> viajeMapper.toDTO(viaje))
             .collect(Collectors.toList());
 }
-
-
 
 }
 

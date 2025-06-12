@@ -39,7 +39,7 @@ public class Viaje {
 
     @Column (name="Descripción")
     @NotBlank
-    @Size (max = 1000, message = "(!) ERROR: el campo de la descripción no puede tener más de 100 caracteres")
+    @Size (max = 1000, message = "(!) ERROR: el campo de la descripción no puede tener más de 1000 caracteres")
     private String description;
 
     @Column (name="N. de adultos")

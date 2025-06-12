@@ -51,7 +51,6 @@ public class AgenciaService {
 
     @Transactional
     public AgenciaDTO createAgencia(AgenciaDTO agenciaDTO) {
-        // Verificar unicidad del nombre
         if (agenciaRepository.existsByNombreIgnoreCase(agenciaDTO.getNombre().trim())) {
             throw new DuplicateResourceException(
                 "Ya existe una agencia con el nombre: " + agenciaDTO.getNombre());

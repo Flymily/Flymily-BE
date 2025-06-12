@@ -3,10 +3,10 @@ package com.flymily.flymily.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flymily.flymily.dto.CreateViajeRequest;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.service.ViajeService;
-import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,26 +24,9 @@ public class ViajeController {
         this.viajeService = viajeService;
     }
 
-    @PostMapping("/{ciudadSalida}/{paisSalida}/{ciudadDestino}/{paisDestino}/{tipoViajeNom}/{transporteNom}/{agenciaNombre}")
-    public ResponseEntity<Viaje> createViaje(
-            @Valid @RequestBody Viaje viaje,
-            @PathVariable String ciudadSalida,
-            @PathVariable String paisSalida,
-            @PathVariable String ciudadDestino,
-            @PathVariable String paisDestino,
-            @PathVariable String tipoViajeNom,
-            @PathVariable String transporteNom,
-            @PathVariable String agenciaNombre) {
-
-        return viajeService.createViaje(
-            viaje, 
-            ciudadSalida, 
-            paisSalida, 
-            ciudadDestino, 
-            paisDestino, 
-            tipoViajeNom, 
-            transporteNom,
-            agenciaNombre);
+    @PostMapping("/crear")
+    public ResponseEntity<Viaje> crearViaje(@RequestBody CreateViajeRequest dto) {
+        return viajeService.createViaje(dto);
     }
 
     @GetMapping
@@ -64,11 +47,9 @@ public class ViajeController {
         return ResponseEntity.ok(viajes);
 }
 
-
-
-    @GetMapping("/by-age/{age}")
-    public List<Viaje> getViajesByAge(@PathVariable Integer age) {
-        return viajeService.findViajesByAge(age);
+    @GetMapping("/edad/{edad}")
+    public List<Viaje> findByEdad(@PathVariable Integer edad) {
+        return viajeService.findViajesByAge(edad);
     }
 
 
