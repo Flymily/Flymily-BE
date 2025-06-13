@@ -11,5 +11,4 @@ import com.flymily.flymily.model.Agencia;
 public interface AgenciaRepository extends JpaRepository<Agencia, Long> {
     Optional<Agencia> findByNombreIgnoreCase(String nombre);
     boolean existsByNombreIgnoreCase(String nombre);
-   
 }

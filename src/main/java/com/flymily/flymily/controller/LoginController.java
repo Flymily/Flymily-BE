@@ -10,7 +10,6 @@ import com.flymily.flymily.dto.LoginDTO;
 import com.flymily.flymily.exceptions.InvalidCredentialsException;
 import com.flymily.flymily.model.Usuario;
 import com.flymily.flymily.service.UsuarioService;
-
 import jakarta.validation.Valid;
 
 

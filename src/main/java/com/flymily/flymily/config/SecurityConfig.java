@@ -18,9 +18,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())  // Desactiva CSRF (necesario para POST/PUT/DELETE)
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()   // Permite acceso sin autenticación
+                .anyRequest().permitAll()
             );
         return http.build();
     }

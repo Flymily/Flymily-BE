@@ -2,7 +2,6 @@ package com.flymily.flymily.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.flymily.flymily.dto.CreateViajeRequestDTO;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.Viaje;

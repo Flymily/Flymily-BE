@@ -61,12 +61,12 @@ public class AgenciaService {
         return convertToDTO(agenciaGuardada);
     }
 
-   @Transactional
+    @Transactional
     public void deleteAgencia(Long id) {
     Agencia agencia = agenciaRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("No se encontró la agencia con ID: " + id));
     agenciaRepository.delete(agencia);
-  }
+    }
 
     @Transactional
     public AgenciaDTO updateAgencia(Long id, AgenciaDTO agenciaDTO) {
@@ -74,7 +74,6 @@ public class AgenciaService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                     "No se encontró la agencia con ID: " + id));
 
-        // Verificar si el nuevo nombre ya existe (excluyendo la agencia actual)
         if (!agenciaExistente.getNombre().equalsIgnoreCase(agenciaDTO.getNombre().trim()) &&
             agenciaRepository.existsByNombreIgnoreCase(agenciaDTO.getNombre().trim())) {
                         throw new DuplicateResourceException(
