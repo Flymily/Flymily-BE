@@ -194,6 +194,7 @@ public class ViajeService {
                     loc.setPais(dto.getPaisSalida());
                     return localidadRepository.save(loc);
                 });
+                viaje.setLocalidadSalida(salida);
         }
 
         if (dto.getCiudadDestino() != null && dto.getPaisDestino() != null) {
@@ -207,6 +208,7 @@ public class ViajeService {
                     loc.setPais(dto.getPaisDestino());
                     return localidadRepository.save(loc);
                 });
+                viaje.setLocalidadDestino(destino);
         }
 
         if (dto.getTipoViaje() != null) {
@@ -218,10 +220,11 @@ public class ViajeService {
                 loc.setTipoViaje(dto.getTipoViaje());
                 return tipoViajeRepository.save(loc);
             });
+            viaje.setTipoViaje(tipo);
         }
 
         if (dto.getTransporte() != null) {
-            Transporte trans = transporteRepository.findAll().stream()
+            Transporte transporte = transporteRepository.findAll().stream()
                 .filter(t -> t.getTipoTransporte().equalsIgnoreCase(dto.getTransporte()))
                 .findFirst()
                 .orElseGet(() -> {
@@ -229,6 +232,7 @@ public class ViajeService {
                 loc.setTipoTransporte(dto.getTransporte());
                 return transporteRepository.save(loc);
             });
+            viaje.setTransporte(transporte);
         }
 
         if (dto.getAgencia() != null) {
@@ -240,6 +244,7 @@ public class ViajeService {
                 loc.setNombre(dto.getAgencia());
                 return agenciaRepository.save(loc);
             });
+            viaje.setAgencia(agencia);
         }
 
         if (dto.getEdadRangos() != null && !dto.getEdadRangos().isEmpty()) {
@@ -255,7 +260,7 @@ public class ViajeService {
     }
 
 
-    }
+}
 
 
 
