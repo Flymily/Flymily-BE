@@ -259,6 +259,13 @@ public class ViajeService {
         return new ResponseEntity<>("Viaje actualizado correctamente", HttpStatus.OK);
     }
 
+    public ResponseEntity<String> deleteViaje(Long id) {
+        Viaje viaje = viajeRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Viaje no encontrado con id: " + id));
+
+        viajeRepository.delete(viaje);
+        return new ResponseEntity<>("Viaje eliminado correctamente", HttpStatus.OK);
+    }
 
 }
 
