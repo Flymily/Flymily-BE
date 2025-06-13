@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
@@ -57,6 +58,11 @@ public class ViajeController {
     @PutMapping("/{id}")
     public ResponseEntity<String> updateViaje(@PathVariable Long id, @RequestBody CreateViajeRequestDTO dto) {
         return viajeService.updateViaje(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteViaje(@PathVariable Long id) {
+        return viajeService.deleteViaje(id);
     }
 
 }
