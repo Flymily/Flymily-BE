@@ -3,6 +3,8 @@ package com.flymily.flymily.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.flymily.flymily.dto.CreateViajeRequestDTO;
+import com.flymily.flymily.dto.ViajeDetalleDTO;
+import com.flymily.flymily.dto.ViajeFilterDTO;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.service.ViajeService;
@@ -64,4 +66,10 @@ public class ViajeController {
         return viajeService.deleteViaje(id);
     }
 
+    @PostMapping("/filtrar")
+    public ResponseEntity<List<ViajeDetalleDTO>> filtrarViajes(@RequestBody ViajeFilterDTO filter) {
+        List<ViajeDetalleDTO> resultados = viajeService.filterViajes(filter);
+        return ResponseEntity.ok(resultados);
+    }
 }
+

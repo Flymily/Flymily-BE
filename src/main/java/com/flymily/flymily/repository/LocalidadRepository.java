@@ -11,5 +11,7 @@ public interface LocalidadRepository extends JpaRepository<Localidad, Long> {
     Optional<Localidad> findByPaisIgnoreCase(String pais);
     Optional<Localidad> findByCiudadIgnoreCase(String ciudad);
     Optional<Localidad> findByCiudadAndPais(String ciudad, String pais);
+    Optional<Localidad> findByPaisAndCiudad(String pais, String ciudad);
+
 
 }

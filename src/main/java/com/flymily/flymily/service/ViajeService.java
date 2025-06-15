@@ -11,7 +11,12 @@ import com.flymily.flymily.exceptions.TituloYaExisteException;
 import com.flymily.flymily.model.Agencia;
 import com.flymily.flymily.model.EdadRango;
 import com.flymily.flymily.dto.CreateViajeRequestDTO;
+import com.flymily.flymily.dto.ViajeDetalleDTO;
+import com.flymily.flymily.dto.ViajeFilterDTO;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
+import com.flymily.flymily.exceptions.EdadRangoNotFoundException;
+import com.flymily.flymily.exceptions.InvalidFilterException;
+import com.flymily.flymily.exceptions.LocalidadNotFoundException;
 import com.flymily.flymily.exceptions.TipoViajeIdNotFoundException;
 import com.flymily.flymily.exceptions.TipoViajeNotFoundException;
 import com.flymily.flymily.mapper.viajeMapper;
@@ -267,7 +272,95 @@ public class ViajeService {
         return new ResponseEntity<>("Viaje eliminado correctamente", HttpStatus.OK);
     }
 
+    public List<ViajeDetalleDTO> filterViajes(ViajeFilterDTO filter) {
+        validateFilter(filter);
+        
+        Localidad localidadSalida = findLocalidadOrThrow(
+            filter.getPaisSalida(), 
+            filter.getCiudadSalida(), 
+            "salida");
+            
+        Localidad localidadDestino = findLocalidadOrThrow(
+            filter.getPaisDestino(), 
+            filter.getCiudadDestino(), 
+            "destino");
+        
+        TipoViaje tipoViaje = findTipoViajeOrThrow(filter.getTipoViaje());
+        EdadRango edadRango = findEdadRangoOrThrow(filter.getEdadNino());
+
+        List<Viaje> viajes = viajeRepository.findByFilterCriteria(
+            filter.getNumAdultos(),
+            filter.getNumNinos(),
+            filter.getFechaDeIda(),
+            filter.getFechaDeVuelta(),
+            localidadSalida,
+            localidadDestino,
+            tipoViaje,
+            edadRango);
+
+        return viajeMapper.toDetalleDTOs(viajes);
+    }
+
+    private void validateFilter(ViajeFilterDTO filter) {
+        if (filter.getNumAdultos() == null || filter.getNumAdultos() < 1) {
+            throw new InvalidFilterException("Número de adultos debe ser al menos 1");
+        }
+        if (filter.getNumNinos() == null || filter.getNumNinos() < 1) {
+            throw new InvalidFilterException("Número de niños debe ser al menos 1");
+        }
+        if (filter.getFechaDeIda() == null) {
+            throw new InvalidFilterException("Fecha de ida es obligatoria");
+        }
+        if (filter.getFechaDeVuelta() == null) {
+            throw new InvalidFilterException("Fecha de vuelta es obligatoria");
+        }
+        if (filter.getTipoViaje() == null || filter.getTipoViaje().isBlank()) {
+            throw new InvalidFilterException("Tipo de viaje es obligatorio");
+        }
+        if (filter.getPaisSalida() == null || filter.getPaisSalida().isBlank()) {
+            throw new InvalidFilterException("País de salida es obligatorio");
+        }
+        if (filter.getCiudadSalida() == null || filter.getCiudadSalida().isBlank()) {
+            throw new InvalidFilterException("Ciudad de salida es obligatoria");
+        }
+        if (filter.getPaisDestino() == null || filter.getPaisDestino().isBlank()) {
+            throw new InvalidFilterException("País de destino es obligatorio");
+        }
+        if (filter.getCiudadDestino() == null || filter.getCiudadDestino().isBlank()) {
+            throw new InvalidFilterException("Ciudad de destino es obligatoria");
+        }
+        if (filter.getEdadNino() == null || filter.getEdadNino() < 0 || filter.getEdadNino() > 17) {
+            throw new InvalidFilterException("Edad de niño debe estar entre 0 y 17 años");
+        }
+        if (filter.getFechaDeIda().isAfter(filter.getFechaDeVuelta())) {
+            throw new InvalidFilterException("Fecha de ida debe ser anterior a fecha de vuelta");
+        }
+    }
+
+        private Localidad findLocalidadOrThrow(String pais, String ciudad, String tipoLocalidad) {
+            return localidadRepository.findByPaisAndCiudad(pais, ciudad)
+                .orElseThrow(() -> new LocalidadNotFoundException(
+                    String.format("Localidad de %s no encontrada para %s, %s", 
+                        tipoLocalidad, ciudad, pais)));
+        }
+
+        private TipoViaje findTipoViajeOrThrow(String tipoViaje) {
+            return tipoViajeRepository.findByTipoViajeIgnoreCase(tipoViaje)
+                .orElseThrow(() -> new TipoViajeNotFoundException(
+                    String.format("Tipo de viaje no encontrado: %s", tipoViaje)));
+        }
+
+        private EdadRango findEdadRangoOrThrow(Integer edadNino) {
+            return edadRangoRepository.findAll().stream()
+                .filter(rango -> rango.containsAge(edadNino))
+                .findFirst()
+                .orElseThrow(() -> new EdadRangoNotFoundException(
+                    String.format("No se encontró rango de edad para: %d años", edadNino)));
+        }
 }
+
+
+
 
 
 

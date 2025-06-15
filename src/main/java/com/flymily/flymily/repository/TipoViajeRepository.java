@@ -8,4 +8,5 @@ import com.flymily.flymily.model.TipoViaje;
 @Repository
 public interface TipoViajeRepository extends JpaRepository<TipoViaje, Long> {
     Optional<TipoViaje> findByTipoViajeIgnoreCase(String tipoViaje);
+    
 }
