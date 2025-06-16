@@ -3,6 +3,8 @@ package com.flymily.flymily.model;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -76,26 +78,32 @@ public class Viaje {
     private String imgPath;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "localidad_salida_id", nullable = false)
     private Localidad localidadSalida;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "localidad_destino_id", nullable = false)
     private Localidad localidadDestino;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "tipo_viaje_id", nullable = false)
     private TipoViaje tipoViaje;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "transporte_id", nullable = false)
     private Transporte transporte;
 
     @ManyToOne
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "agencia_id", nullable = false)
     private Agencia agencia;
 
     @ManyToMany
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinTable(
         name = "viaje_rango_edad",
         joinColumns = @JoinColumn(name = "viaje_id"),

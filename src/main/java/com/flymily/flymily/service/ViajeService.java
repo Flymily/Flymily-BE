@@ -19,7 +19,7 @@ import com.flymily.flymily.exceptions.InvalidFilterException;
 import com.flymily.flymily.exceptions.LocalidadNotFoundException;
 import com.flymily.flymily.exceptions.TipoViajeIdNotFoundException;
 import com.flymily.flymily.exceptions.TipoViajeNotFoundException;
-import com.flymily.flymily.mapper.viajeMapper;
+import com.flymily.flymily.mapper.ViajeMapper;
 import com.flymily.flymily.model.Localidad;
 import com.flymily.flymily.model.TipoViaje;
 import com.flymily.flymily.model.Transporte;
@@ -162,7 +162,7 @@ public class ViajeService {
         
         return viajeRepository.findByTipoViaje(tipoViaje)
                 .stream()
-                .map(viaje -> viajeMapper.toDTO(viaje))
+                .map(viaje -> ViajeMapper.toDTO(viaje))
                 .collect(Collectors.toList());
     }
 
@@ -172,7 +172,7 @@ public class ViajeService {
         
         return viajeRepository.findByTipoViaje(tipo)
                 .stream()
-                .map(viaje -> viajeMapper.toDTO(viaje))
+                .map(viaje -> ViajeMapper.toDTO(viaje))
                 .collect(Collectors.toList());
     }
 
@@ -317,7 +317,7 @@ public class ViajeService {
             tipoViaje,
             rangosEdad);
 
-        return viajeMapper.toDetalleDTOs(viajes);
+        return ViajeMapper.toDetalleDTOs(viajes);
     }
 
     private void validateFilter(ViajeFilterDTO filter) {

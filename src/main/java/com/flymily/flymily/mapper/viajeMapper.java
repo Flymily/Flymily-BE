@@ -10,7 +10,7 @@ import com.flymily.flymily.model.EdadRango;
 import com.flymily.flymily.model.Viaje;
 
 @Component
-public class viajeMapper {
+public class ViajeMapper {
 
 public static ViajeSencilloDTO toDTO(Viaje viaje) {
 
@@ -89,7 +89,7 @@ public static ViajeSencilloDTO toDTO(Viaje viaje) {
         }
         
         return viajes.stream()
-            .map(viajeMapper::toDetalleDTO)
+            .map(ViajeMapper::toDetalleDTO)
             .collect(Collectors.toList());
     }
 }

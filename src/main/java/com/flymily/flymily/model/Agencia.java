@@ -26,8 +26,8 @@ public class Agencia {
     @Column(nullable = false, length = 100, unique = true)
     private String nombre;
 
-    @OneToMany(mappedBy = "agencia")
     @JsonIgnore
+    @OneToMany(mappedBy = "agencia")
     private List<Viaje> viajes;
 
 }

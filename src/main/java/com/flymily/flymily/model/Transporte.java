@@ -29,10 +29,9 @@ public class Transporte {
     @Column(name = "tipo_transporte", nullable = false, length = 50, unique = true)
     private String tipoTransporte;
 
-    @OneToMany(mappedBy = "transporte")
     @JsonIgnore
+    @OneToMany(mappedBy = "transporte")
     private List<Viaje> viaje;
-
 
     public Transporte() {
     }

@@ -32,12 +32,12 @@ public class Localidad {
     @Column(nullable = false, length = 100)
     private String ciudad;
 
-    @OneToMany(mappedBy = "localidadSalida")
     @JsonIgnore
+    @OneToMany(mappedBy = "localidadSalida")
     private List<Viaje> viajeDesde;
     
-    @OneToMany(mappedBy = "localidadDestino")
     @JsonIgnore
+    @OneToMany(mappedBy = "localidadDestino")
     private List<Viaje> viajeHacia;
 
     public Localidad() {

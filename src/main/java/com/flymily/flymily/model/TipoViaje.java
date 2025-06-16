@@ -29,8 +29,8 @@ public class TipoViaje {
     @Column(nullable = false, length = 50, unique = true)
     private String tipoViaje;
 
-    @OneToMany(mappedBy = "tipoViaje")
     @JsonIgnore
+    @OneToMany(mappedBy = "tipoViaje")
     private List<Viaje> viajes;
 
     public TipoViaje() {
