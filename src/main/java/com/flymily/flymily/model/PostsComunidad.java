@@ -13,9 +13,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "comunidad")
+@Table(name = "postsComunidad")
 @Getter @Setter
-public class Comunidad {
+public class PostsComunidad {
     
     @Id
     @SequenceGenerator (name="comunidad_id_sequence", sequenceName = "comunidad_id_sequence", allocationSize = 1, initialValue = 1)
@@ -25,12 +25,12 @@ public class Comunidad {
     @Column (name="Título")
     @NotBlank
     @Size (max = 100, message = "(!) ERROR: el campo del título no puede tener más de 100 caracteres")
-    private String tituloComunidad;
+    private String tituloPost;
 
     @Column (name="Contenido")
     @NotBlank
     @Size (max = 5000, message = "(!) ERROR: el campo del contenido no puede tener más de 5000 caracteres")
-    private String contenidoComunidad;
+    private String contenidoPost;
 
     @Column (name="Imagen")
     private String imgPathComunidad;
