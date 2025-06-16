@@ -1,10 +1,13 @@
 package com.flymily.flymily.model;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,10 +36,14 @@ public class EdadRango {
         this.descripcion = descripcion;
     }
     
+    @ManyToMany(mappedBy = "edadRangos")
+    private List<Viaje> viajes;
+
     public EdadRango() {}
     
-    public boolean containsAge(Integer age) {
-        return age >= edadMin && age <= edadMax;
+    public boolean containsAge(Integer edad) {
+        return edad != null && edad >= edadMin && edad <= edadMax;
     }
+    
 }
 

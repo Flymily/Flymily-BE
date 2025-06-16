@@ -31,6 +31,9 @@ import com.flymily.flymily.repository.TipoViajeRepository;
 import com.flymily.flymily.repository.TransporteRepository;
 import com.flymily.flymily.repository.ViajeRepository;
 
+import org.springframework.transaction.annotation.Transactional;
+
+
 @Service
 public class ViajeService {
 
@@ -272,6 +275,7 @@ public class ViajeService {
         return new ResponseEntity<>("Viaje eliminado correctamente", HttpStatus.OK);
     }
 
+    @Transactional(readOnly = true)
     public List<ViajeDetalleDTO> filterViajes(ViajeFilterDTO filter) {
         validateFilter(filter);
         
@@ -286,7 +290,15 @@ public class ViajeService {
             "destino");
         
         TipoViaje tipoViaje = findTipoViajeOrThrow(filter.getTipoViaje());
-        EdadRango edadRango = findEdadRangoOrThrow(filter.getEdadNino());
+
+        List<EdadRango> rangosEdad = filter.getEdadesNinos().stream()
+            .map(this::findEdadRangoOrThrow)
+            .distinct()
+            .collect(Collectors.toList());
+
+        if (rangosEdad.isEmpty()) {
+            return List.of();
+        }
 
         List<Viaje> viajes = viajeRepository.findByFilterCriteria(
             filter.getNumAdultos(),
@@ -296,7 +308,7 @@ public class ViajeService {
             localidadSalida,
             localidadDestino,
             tipoViaje,
-            edadRango);
+            rangosEdad);
 
         return viajeMapper.toDetalleDTOs(viajes);
     }
@@ -305,8 +317,8 @@ public class ViajeService {
         if (filter.getNumAdultos() == null || filter.getNumAdultos() < 1) {
             throw new InvalidFilterException("Número de adultos debe ser al menos 1");
         }
-        if (filter.getNumNinos() == null || filter.getNumNinos() < 1) {
-            throw new InvalidFilterException("Número de niños debe ser al menos 1");
+        if (filter.getNumNinos() == null || filter.getNumNinos() < 0) {
+            throw new InvalidFilterException("Número de niños no puede ser negativo");
         }
         if (filter.getFechaDeIda() == null) {
             throw new InvalidFilterException("Fecha de ida es obligatoria");
@@ -329,9 +341,19 @@ public class ViajeService {
         if (filter.getCiudadDestino() == null || filter.getCiudadDestino().isBlank()) {
             throw new InvalidFilterException("Ciudad de destino es obligatoria");
         }
-        if (filter.getEdadNino() == null || filter.getEdadNino() < 0 || filter.getEdadNino() > 17) {
-            throw new InvalidFilterException("Edad de niño debe estar entre 0 y 17 años");
+        if (filter.getEdadesNinos() == null || filter.getEdadesNinos().isEmpty()) {
+            throw new InvalidFilterException("Debe proporcionar al menos una edad de niño");
         }
+        if (filter.getNumNinos() != filter.getEdadesNinos().size()) {
+            throw new InvalidFilterException("El número de edades debe coincidir con el número de niños");
+        }
+        
+        for (Integer edad : filter.getEdadesNinos()) {
+            if (edad == null || edad < 0 || edad > 17) {
+                throw new InvalidFilterException("Las edades de los niños deben estar entre 0 y 17 años");
+            }
+        }
+        
         if (filter.getFechaDeIda().isAfter(filter.getFechaDeVuelta())) {
             throw new InvalidFilterException("Fecha de ida debe ser anterior a fecha de vuelta");
         }
@@ -351,12 +373,11 @@ public class ViajeService {
         }
 
         private EdadRango findEdadRangoOrThrow(Integer edadNino) {
-            return edadRangoRepository.findAll().stream()
-                .filter(rango -> rango.containsAge(edadNino))
-                .findFirst()
+            return edadRangoRepository.findByEdad(edadNino)
                 .orElseThrow(() -> new EdadRangoNotFoundException(
                     String.format("No se encontró rango de edad para: %d años", edadNino)));
         }
+
 }
 
 

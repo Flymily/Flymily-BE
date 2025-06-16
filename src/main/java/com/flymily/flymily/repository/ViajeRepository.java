@@ -23,25 +23,29 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long>{
     List<Viaje> findByAge(@Param("age") Integer age);
     List<Viaje> findByTipoViaje(TipoViaje tipoViaje);
         
-    @Query("SELECT v FROM Viaje v WHERE " +
-        "(:numAdultos IS NULL OR v.numAdultos >= :numAdultos) AND " +
-        "(:numNinos IS NULL OR v.numNinos >= :numNinos) AND " +
-        "(:fechaDeIda IS NULL OR v.fechaDeIda = :fechaDeIda) AND " +
-        "(:fechaDeVuelta IS NULL OR v.fechaDeVuelta = :fechaDeVuelta) AND " +
-        "(:localidadSalida IS NULL OR v.localidadSalida = :localidadSalida) AND " +
-        "(:localidadDestino IS NULL OR v.localidadDestino = :localidadDestino) AND " +
-        "(:tipoViaje IS NULL OR v.tipoViaje = :tipoViaje) AND " +
-        "(:edadRango MEMBER OF v.edadRangos)")
-        List<Viaje> findByFilterCriteria(
-            @Param("numAdultos") Integer numAdultos,
-            @Param("numNinos") Integer numNinos,
-            @Param("fechaDeIda") LocalDate fechaDeIda,
-            @Param("fechaDeVuelta") LocalDate fechaDeVuelta,
-            @Param("localidadSalida") Localidad localidadSalida,
-            @Param("localidadDestino") Localidad localidadDestino,
-            @Param("tipoViaje") TipoViaje tipoViaje,
-            @Param("edadRango") EdadRango edadRango);
+    @Query("""
+        SELECT DISTINCT v FROM Viaje v
+        JOIN v.edadRangos r
+        WHERE (:numAdultos IS NULL OR v.numAdultos >= :numAdultos)
+        AND (:numNinos IS NULL OR v.numNinos >= :numNinos)
+        AND (:fechaDeIda IS NULL OR v.fechaDeIda = :fechaDeIda)
+        AND (:fechaDeVuelta IS NULL OR v.fechaDeVuelta = :fechaDeVuelta)
+        AND (:localidadSalida IS NULL OR v.localidadSalida = :localidadSalida)
+        AND (:localidadDestino IS NULL OR v.localidadDestino = :localidadDestino)
+        AND (:tipoViaje IS NULL OR v.tipoViaje = :tipoViaje)
+        AND (:rangosEdad IS NULL OR r IN :rangosEdad)
+    """)
+    List<Viaje> findByFilterCriteria(
+        @Param("numAdultos") Integer numAdultos,
+        @Param("numNinos") Integer numNinos,
+        @Param("fechaDeIda") LocalDate fechaDeIda,
+        @Param("fechaDeVuelta") LocalDate fechaDeVuelta,
+        @Param("localidadSalida") Localidad localidadSalida,
+        @Param("localidadDestino") Localidad localidadDestino,
+        @Param("tipoViaje") TipoViaje tipoViaje,
+        @Param("rangosEdad") List<EdadRango> rangosEdad
+    );
 
-    }
+}
 
 

@@ -1,8 +1,8 @@
 package com.flymily.flymily.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -97,11 +97,11 @@ public class Viaje {
 
     @ManyToMany
     @JoinTable(
-        name = "viaje_edad_rango",
+        name = "viaje_rango_edad",
         joinColumns = @JoinColumn(name = "viaje_id"),
-        inverseJoinColumns = @JoinColumn(name = "edad_rango_id")
+        inverseJoinColumns = @JoinColumn(name = "rango_edad_id")
     )
-    private Set<EdadRango> edadRangos = new HashSet<>();
+    private Set<EdadRango> edadRangos;
 
     public Viaje(){}
 
