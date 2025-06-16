@@ -30,8 +30,8 @@ import com.flymily.flymily.repository.LocalidadRepository;
 import com.flymily.flymily.repository.TipoViajeRepository;
 import com.flymily.flymily.repository.TransporteRepository;
 import com.flymily.flymily.repository.ViajeRepository;
-
 import org.springframework.transaction.annotation.Transactional;
+
 
 
 @Service
@@ -69,11 +69,14 @@ public class ViajeService {
             }
 
         Set<EdadRango> edadRangos = new HashSet<>();
-        if (dto.getEdadRangos() != null && !dto.getEdadRangos().isEmpty()) {
-            edadRangos = dto.getEdadRangos().stream()
-                .map(desc -> edadRangoRepository.findByDescripcionIgnoreCase(desc)
-                .orElseThrow(() -> new RuntimeException("EdadRango no encontrado: " + desc)))
-                .collect(Collectors.toSet());
+        if (dto.getEdadesNinos() != null && !dto.getEdadesNinos().isEmpty()) {
+            for (Integer edad : dto.getEdadesNinos()) {
+                EdadRango rango = edadRangoRepository.findAll().stream()
+                    .filter(r -> r.containsAge(edad))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("No se encontró un rango de edad para la edad: " + edad));
+                edadRangos.add(rango);
+            }
         }
 
         Localidad localidadSalida = localidadRepository.findAll().stream()
@@ -255,11 +258,15 @@ public class ViajeService {
             viaje.setAgencia(agencia);
         }
 
-        if (dto.getEdadRangos() != null && !dto.getEdadRangos().isEmpty()) {
-            Set<EdadRango> edadRangos = dto.getEdadRangos().stream()
-                .map(desc -> edadRangoRepository.findByDescripcionIgnoreCase(desc)
-                    .orElseThrow(() -> new RuntimeException("EdadRango no encontrado: " + desc)))
-                .collect(Collectors.toSet());
+        if (dto.getEdadesNinos() != null && !dto.getEdadesNinos().isEmpty()) {
+            Set<EdadRango> edadRangos = new HashSet<>();
+            for (Integer edad : dto.getEdadesNinos()) {
+                EdadRango rango = edadRangoRepository.findAll().stream()
+                    .filter(r -> r.containsAge(edad))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("No se encontró un rango de edad para la edad: " + edad));
+                edadRangos.add(rango);
+            }
             viaje.setEdadRangos(edadRangos);
         }
 

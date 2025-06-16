@@ -29,5 +29,6 @@ public class CreateViajeRequestDTO {
     private String transporte;
     private String agencia;
 
-    private List<String> edadRangos;
+    private List<Integer> edadesNinos;
+
 }
