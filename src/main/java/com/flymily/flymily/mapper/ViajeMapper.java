@@ -10,7 +10,7 @@ import com.flymily.flymily.model.EdadRango;
 import com.flymily.flymily.model.Viaje;
 
 @Component
-public class viajeMapper {
+public class ViajeMapper {
 
 public static ViajeSencilloDTO toDTO(Viaje viaje) {
 
