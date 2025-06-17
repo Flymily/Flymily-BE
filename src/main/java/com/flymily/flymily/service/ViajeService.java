@@ -186,6 +186,11 @@ public class ViajeService {
         return ViajeMapper.toDetalleDTO(viaje);
     }
 
+        public Viaje getViajeById(Long id) {
+        return viajeRepository.findById(id)
+            .orElseThrow(() -> new ViajeNotFoundException("No se encontró un viaje con id: " + id));
+    }
+
     public ResponseEntity<String> updateViaje(Long id, CreateViajeRequestDTO dto) {
         Viaje viaje = viajeRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Viaje no encontrado con id: " + id));

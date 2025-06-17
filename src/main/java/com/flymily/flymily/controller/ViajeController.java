@@ -37,6 +37,12 @@ public class ViajeController {
     public List<Viaje> getAllViajes(){
         return viajeService.getAllViajes();
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Viaje> getViajeById(@PathVariable Long id) {
+        Viaje viaje = viajeService.getViajeById(id);
+        return ResponseEntity.ok(viaje);
+    }
     
     @GetMapping("/tipo/{tipoViajeId}")
     public ResponseEntity<List<ViajeSencilloDTO>> getViajesByTipoViaje(@PathVariable Long tipoViajeId) {
