@@ -48,8 +48,7 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/login", "/api/viajes/filtrar").permitAll()
-                .requestMatchers("/api/viajes").permitAll()
+                .requestMatchers("/api/auth/login", "/api/viajes/filtrar", "/api/viajes/filtrar/detalle/**", "/api/viajes/filtrar/detalle/all").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form.disable())
