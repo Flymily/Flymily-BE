@@ -22,7 +22,7 @@ public class PostsComunidadController {
         this.postsComunidadService = postsComunidadService;
     }
 
-    @PostMapping
+    @PostMapping("/auth/create")
     public ResponseEntity<?> createPost(@RequestBody PostsComunidadDTO postsComunidadDTO) {
         return postsComunidadService.createPost(postsComunidadDTO);
     }
@@ -37,12 +37,12 @@ public class PostsComunidadController {
         return postsComunidadService.getPostById(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/auth/update/{id}")
     public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody PostsComunidadDTO postsComunidadDTO) {
         return postsComunidadService.updatePost(id, postsComunidadDTO);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/auth/delete/{id}")
     public ResponseEntity<?> deletePost(@PathVariable Long id) {
         return postsComunidadService.deletePost(id);
     }
