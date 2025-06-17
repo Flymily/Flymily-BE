@@ -61,7 +61,6 @@ public static ViajeSencilloDTO toDTO(Viaje viaje) {
         }
         
         dto.setTransporte(viaje.getTransporte() != null ? viaje.getTransporte().getTipoTransporte() : null);
-        dto.setAgencia(viaje.getAgencia() != null ? viaje.getAgencia().getNombre() : null);
         
         if (viaje.getLocalidadSalida() != null) {
             dto.setCiudadSalida(viaje.getLocalidadSalida().getCiudad());

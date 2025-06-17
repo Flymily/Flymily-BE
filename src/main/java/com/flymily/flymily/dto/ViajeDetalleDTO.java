@@ -21,7 +21,6 @@ public class ViajeDetalleDTO {
     private String imgPath;
     private String tipoViaje;
     private String transporte;
-    private String agencia;
     private String ciudadSalida;
     private String paisSalida;
     private String ciudadDestino;

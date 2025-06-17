@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.flymily.flymily.exceptions.TituloYaExisteException;
+import com.flymily.flymily.exceptions.ViajeNotFoundException;
 import com.flymily.flymily.model.Agencia;
 import com.flymily.flymily.model.EdadRango;
 import com.flymily.flymily.dto.CreateViajeRequestDTO;
@@ -176,6 +177,25 @@ public class ViajeService {
                 .stream()
                 .map(viaje -> ViajeMapper.toDTO(viaje))
                 .collect(Collectors.toList());
+    }
+
+    public ViajeDetalleDTO getViajeDetalleById(Long id) {
+        Viaje viaje = viajeRepository.findById(id)
+            .orElseThrow(() -> new ViajeNotFoundException("No se encontró un viaje con id: " + id));
+
+        return ViajeMapper.toDetalleDTO(viaje);
+    }
+
+        public List<ViajeDetalleDTO> getAllViajesDetalle() {
+        List<Viaje> viajes = viajeRepository.findAll();
+        return viajes.stream()
+                    .map(ViajeMapper::toDetalleDTO)
+                    .collect(Collectors.toList());
+    }
+
+        public Viaje getViajeById(Long id) {
+        return viajeRepository.findById(id)
+            .orElseThrow(() -> new ViajeNotFoundException("No se encontró un viaje con id: " + id));
     }
 
     public ResponseEntity<String> updateViaje(Long id, CreateViajeRequestDTO dto) {
