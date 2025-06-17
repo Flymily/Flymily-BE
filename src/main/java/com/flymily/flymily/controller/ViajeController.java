@@ -8,9 +8,7 @@ import com.flymily.flymily.dto.ViajeFilterDTO;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.service.ViajeService;
-
 import jakarta.validation.Valid;
-
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -73,6 +71,11 @@ public class ViajeController {
     public ResponseEntity<List<ViajeDetalleDTO>> filtrarViajes(@Valid @RequestBody ViajeFilterDTO filter) {
         List<ViajeDetalleDTO> resultados = viajeService.filterViajes(filter);
         return ResponseEntity.ok(resultados);
+    }
+
+    @GetMapping("/filtrar/detalle/{id}")
+    public ViajeDetalleDTO getViajeDetalle(@PathVariable Long id) {
+        return viajeService.getViajeDetalleById(id);
     }
 }
 
