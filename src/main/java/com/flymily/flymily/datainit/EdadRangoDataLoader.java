@@ -19,9 +19,9 @@ public class EdadRangoDataLoader implements CommandLineRunner {
     public void run(String... args) {
         if (edadRangoRepository.count() == 0) {
             edadRangoRepository.saveAll(List.of(
-                new EdadRango(0, 3,  "Bebés"),
-                new EdadRango(4, 10, "Niños pequeños"),
-                new EdadRango(11,17, "Adolescentes")
+                new EdadRango(0, 3,  "0-3 años"),
+                new EdadRango(4, 10, "4-10 años"),
+                new EdadRango(11,17, "11-17 años")
             ));
         }
     }
