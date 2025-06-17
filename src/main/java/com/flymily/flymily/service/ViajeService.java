@@ -186,6 +186,13 @@ public class ViajeService {
         return ViajeMapper.toDetalleDTO(viaje);
     }
 
+        public List<ViajeDetalleDTO> getAllViajesDetalle() {
+        List<Viaje> viajes = viajeRepository.findAll();
+        return viajes.stream()
+                    .map(ViajeMapper::toDetalleDTO)
+                    .collect(Collectors.toList());
+    }
+
         public Viaje getViajeById(Long id) {
         return viajeRepository.findById(id)
             .orElseThrow(() -> new ViajeNotFoundException("No se encontró un viaje con id: " + id));

@@ -83,5 +83,11 @@ public class ViajeController {
     public ViajeDetalleDTO getViajeDetalle(@PathVariable Long id) {
         return viajeService.getViajeDetalleById(id);
     }
+
+    @GetMapping("/filtrar/detalle/all")
+    public ResponseEntity<List<ViajeDetalleDTO>> getAllViajesDetalle() {
+        List<ViajeDetalleDTO> viajesDetalle = viajeService.getAllViajesDetalle();
+        return ResponseEntity.ok(viajesDetalle);
+    }
 }
 
