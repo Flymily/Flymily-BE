@@ -26,8 +26,8 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long>{
         JOIN v.edadRangos r
         WHERE v.numAdultos >= :numAdultos
         AND v.numNinos >= :numNinos
-        AND v.fechaDeIda = :fechaDeIda
-        AND v.fechaDeVuelta = :fechaDeVuelta
+        AND v.fechaDeIda >= :fechaDeIda
+        AND v.fechaDeVuelta <= :fechaDeVuelta
         AND v.localidadSalida = :localidadSalida
         AND v.localidadDestino = :localidadDestino
         AND v.tipoViaje = :tipoViaje
