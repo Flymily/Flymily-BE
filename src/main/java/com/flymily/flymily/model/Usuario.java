@@ -1,25 +1,23 @@
 package com.flymily.flymily.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "usuarios")
-@Data 
-@NoArgsConstructor 
-@AllArgsConstructor 
-
-public class Usuario {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Usuario implements UserDetails {
     
     @Id
-    @SequenceGenerator (name="user_id_sequence", sequenceName = "user_id_sequence", allocationSize = 1, initialValue = 1)
+    @SequenceGenerator(name="user_id_sequence", sequenceName = "user_id_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_sequence")
     private Long id;
 
@@ -32,4 +30,29 @@ public class Usuario {
     @Email(message = "(!) ERROR: el email debe tener un formato válido")
     private String email;
 
+    // Métodos requeridos por UserDetails
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.emptyList();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

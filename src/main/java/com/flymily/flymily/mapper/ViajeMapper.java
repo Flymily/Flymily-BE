@@ -1,11 +1,13 @@
 package com.flymily.flymily.mapper;
 
-import com.flymily.flymily.dto.ViajeDetalleDTO;
-import com.flymily.flymily.dto.ViajeSencilloDTO;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Component;
+
+import com.flymily.flymily.dto.ViajeDetalleDTO;
+import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.EdadRango;
 import com.flymily.flymily.model.Viaje;
 
@@ -89,7 +91,7 @@ public static ViajeSencilloDTO toDTO(Viaje viaje) {
         }
         
         return viajes.stream()
-            .map(viajeMapper::toDetalleDTO)
+            .map(ViajeMapper::toDetalleDTO)
             .collect(Collectors.toList());
     }
 }
