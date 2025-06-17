@@ -30,6 +30,8 @@ import com.flymily.flymily.repository.LocalidadRepository;
 import com.flymily.flymily.repository.TipoViajeRepository;
 import com.flymily.flymily.repository.TransporteRepository;
 import com.flymily.flymily.repository.ViajeRepository;
+
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -282,7 +284,7 @@ public class ViajeService {
         return new ResponseEntity<>("Viaje eliminado correctamente", HttpStatus.OK);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<ViajeDetalleDTO> filterViajes(ViajeFilterDTO filter) {
         validateFilter(filter);
         
@@ -298,14 +300,21 @@ public class ViajeService {
         
         TipoViaje tipoViaje = findTipoViajeOrThrow(filter.getTipoViaje());
 
+        
         List<EdadRango> rangosEdad = filter.getEdadesNinos().stream()
-            .map(this::findEdadRangoOrThrow)
-            .distinct()
-            .collect(Collectors.toList());
+        .map(this::findEdadRangoOrThrow)
+        .distinct()
+        .collect(Collectors.toList());
+        
+        rangosEdad.forEach(r -> edadRangoRepository.detach(r));
 
         if (rangosEdad.isEmpty()) {
             return List.of();
         }
+
+        List<Long> rangoIds = rangosEdad.stream()
+            .map(EdadRango::getId)
+            .toList();
 
         List<Viaje> viajes = viajeRepository.findByFilterCriteria(
             filter.getNumAdultos(),
@@ -315,7 +324,7 @@ public class ViajeService {
             localidadSalida,
             localidadDestino,
             tipoViaje,
-            rangosEdad);
+            rangoIds);
 
         return ViajeMapper.toDetalleDTOs(viajes);
     }

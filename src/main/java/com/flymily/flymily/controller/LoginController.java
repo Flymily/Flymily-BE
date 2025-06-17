@@ -2,7 +2,6 @@ package com.flymily.flymily.controller;
 
 import com.flymily.flymily.config.JwtService;
 import com.flymily.flymily.dto.*;
-import com.flymily.flymily.exceptions.InvalidCredentialsException;
 import com.flymily.flymily.model.Usuario;
 import com.flymily.flymily.service.UsuarioService;
 import jakarta.validation.Valid;
