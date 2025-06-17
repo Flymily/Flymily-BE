@@ -89,7 +89,7 @@ public static ViajeSencilloDTO toDTO(Viaje viaje) {
         }
         
         return viajes.stream()
-            .map(viajeMapper::toDetalleDTO)
+            .map(ViajeMapper::toDetalleDTO)
             .collect(Collectors.toList());
     }
 }
