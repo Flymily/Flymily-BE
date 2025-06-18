@@ -27,12 +27,12 @@ public class PostsComunidadController {
         return postsComunidadService.createPost(postsComunidadDTO);
     }
 
-    @GetMapping("/view/all")
+    @GetMapping
     public ResponseEntity<?> getAllPosts() {
         return postsComunidadService.getAllPosts();
     }
 
-    @GetMapping("/view/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getPostById(@PathVariable Long id) {
         return postsComunidadService.getPostById(id);
     }

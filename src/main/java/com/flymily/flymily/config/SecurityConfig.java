@@ -20,12 +20,12 @@ public class SecurityConfig {
     http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/login", "/api/viajes/filtrar", "/api/viajes/filtrar/detalle/**",
-            "/api/posts-comunidad", "/api/posts-comunidad/view/**", "/api/viajes/filtrar/detalle/all").permitAll()
-            // .requestMatchers("/api/posts-comunidad/auth/create", "/api/posts-comunidad/auth/update/**", "/api/posts-comunidad/auth/delete/**").authenticated()
+            .requestMatchers("/api/auth/login", "/api/viajes/filtrar", "/api/viajes/filtrar/detalle/**").permitAll()
+            .requestMatchers("/api/posts-comunidad/auth/**").authenticated() // Requiere autenticación
+            .requestMatchers("/api/posts-comunidad", "/api/posts-comunidad/**").permitAll() // Público
             .anyRequest().authenticated()
         )
-        .httpBasic(basic -> basic.init(http));
+        .httpBasic(basic -> basic.init(http)); // <- Habilita autenticación básica
 
     return http.build();
     }
