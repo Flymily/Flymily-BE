@@ -29,7 +29,7 @@ public class PostsComunidad {
 
     @Column (name="Contenido")
     @NotBlank
-    @Size (max = 5000, message = "(!) ERROR: el campo del contenido no puede tener más de 5000 caracteres")
+    @Size (max = 50000, message = "(!) ERROR: el campo del contenido no puede tener más de 50000 caracteres")
     private String contenidoPost;
 
     @Column (name="Imagen")
