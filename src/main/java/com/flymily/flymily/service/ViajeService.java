@@ -358,12 +358,11 @@ public class ViajeService {
         }
     }
 
-        private Localidad findLocalidadOrThrow(String pais, String ciudad, String tipoLocalidad) {
-            return localidadRepository.findByPaisAndCiudad(pais, ciudad)
-                .orElseThrow(() -> new LocalidadNotFoundException(
-                    String.format("Localidad de %s no encontrada para %s, %s", 
-                        tipoLocalidad, ciudad, pais)));
-        }
+    private Localidad findLocalidadOrThrow(String pais, String ciudad, String tipoLocalidad) {
+        return localidadRepository.findByPaisIgnoreCaseAndCiudadIgnoreCase(pais, ciudad)
+            .orElseThrow(() -> new LocalidadNotFoundException(
+                String.format("Localidad de %s no encontrada para %s, %s", tipoLocalidad, ciudad, pais)));
+    }
 
         private TipoViaje findTipoViajeOrThrow(String tipoViaje) {
             return tipoViajeRepository.findByTipoViajeIgnoreCase(tipoViaje)
