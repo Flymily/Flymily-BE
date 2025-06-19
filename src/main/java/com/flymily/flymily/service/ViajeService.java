@@ -129,24 +129,9 @@ public class ViajeService {
                 return agenciaRepository.save(loc);
             });
 
-        Viaje viaje = new Viaje();
-        viaje.setTitle(dto.getTitle());
-        viaje.setDescription(dto.getDescription());
-        viaje.setNumAdultos(dto.getNumAdultos());
-        viaje.setNumNinos(dto.getNumNinos());
-        viaje.setFechaDeIda(dto.getFechaDeIda());
-        viaje.setFechaDeVuelta(dto.getFechaDeVuelta());
-        viaje.setPresupuesto(dto.getPresupuesto());
-        viaje.setDiscapacidadMovilRed(dto.isDiscapacidadMovilRed());
-        viaje.setGrupoOPrivado(dto.isGrupoOPrivado());
-        viaje.setOrganizadoOMedida(dto.isOrganizadoOMedida());
-        viaje.setImgPath(dto.getImgPath());
-        viaje.setLocalidadSalida(localidadSalida);
-        viaje.setLocalidadDestino(localidadDestino);
-        viaje.setTipoViaje(tipoViaje);
-        viaje.setTransporte(transporte);
-        viaje.setAgencia(agencia);
-        viaje.setEdadRangos(edadRangos);
+        Viaje viaje = ViajeMapper.toEntity(dto, localidadSalida, localidadDestino, 
+        tipoViaje, transporte, agencia, edadRangos);
+
 
         return new ResponseEntity<>(viajeRepository.save(viaje), HttpStatus.CREATED);
     }
@@ -200,101 +185,79 @@ public class ViajeService {
 
     public ResponseEntity<String> updateViaje(Long id, CreateViajeRequestDTO dto) {
         Viaje viaje = viajeRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Viaje no encontrado con id: " + id));
+                .orElseThrow(() -> new RuntimeException("Viaje no encontrado con id: " + id));
 
-        if (dto.getTitle() != null) viaje.setTitle(dto.getTitle());
-        if (dto.getDescription() != null) viaje.setDescription(dto.getDescription());
-        if (dto.getNumAdultos() != null) viaje.setNumAdultos(dto.getNumAdultos());
-        if (dto.getNumNinos() != null) viaje.setNumNinos(dto.getNumNinos());
-        if (dto.getFechaDeIda() != null) viaje.setFechaDeIda(dto.getFechaDeIda());
-        if (dto.getFechaDeVuelta() != null) viaje.setFechaDeVuelta(dto.getFechaDeVuelta());
-        if (dto.getPresupuesto() != null) viaje.setPresupuesto(dto.getPresupuesto());
+        Localidad salida = getOrCreateLocalidad(dto.getCiudadSalida(), dto.getPaisSalida());
+        Localidad destino = getOrCreateLocalidad(dto.getCiudadDestino(), dto.getPaisDestino());
+        TipoViaje tipo = getOrCreateTipoViaje(dto.getTipoViaje());
+        Transporte transporte = getOrCreateTransporte(dto.getTransporte());
+        Agencia agencia = getOrCreateAgencia(dto.getAgencia());
 
-        viaje.setDiscapacidadMovilRed(dto.isDiscapacidadMovilRed());
-        viaje.setGrupoOPrivado(dto.isGrupoOPrivado());
-        viaje.setOrganizadoOMedida(dto.isOrganizadoOMedida());
-
-        if (dto.getImgPath() != null) viaje.setImgPath(dto.getImgPath());
-
-        if (dto.getCiudadSalida() != null && dto.getPaisSalida() != null) {
-            Localidad salida = localidadRepository.findAll().stream()
-                .filter(loc -> loc.getCiudad().equalsIgnoreCase(dto.getCiudadSalida())
-                            && loc.getPais().equalsIgnoreCase(dto.getPaisSalida()))
-                .findFirst()
-                .orElseGet(() -> {
-                    Localidad loc = new Localidad();
-                    loc.setCiudad(dto.getCiudadSalida());
-                    loc.setPais(dto.getPaisSalida());
-                    return localidadRepository.save(loc);
-                });
-                viaje.setLocalidadSalida(salida);
-        }
-
-        if (dto.getCiudadDestino() != null && dto.getPaisDestino() != null) {
-            Localidad destino = localidadRepository.findAll().stream()
-                .filter(loc -> loc.getCiudad().equalsIgnoreCase(dto.getCiudadDestino())
-                            && loc.getPais().equalsIgnoreCase(dto.getPaisDestino()))
-                .findFirst()
-                .orElseGet(() -> {
-                    Localidad loc = new Localidad();
-                    loc.setCiudad(dto.getCiudadDestino());
-                    loc.setPais(dto.getPaisDestino());
-                    return localidadRepository.save(loc);
-                });
-                viaje.setLocalidadDestino(destino);
-        }
-
-        if (dto.getTipoViaje() != null) {
-            TipoViaje tipo = tipoViajeRepository.findAll().stream()
-                .filter(t -> t.getTipoViaje().equalsIgnoreCase(dto.getTipoViaje()))
-                .findFirst()
-            .orElseGet(() -> {
-                TipoViaje loc = new TipoViaje();
-                loc.setTipoViaje(dto.getTipoViaje());
-                return tipoViajeRepository.save(loc);
-            });
-            viaje.setTipoViaje(tipo);
-        }
-
-        if (dto.getTransporte() != null) {
-            Transporte transporte = transporteRepository.findAll().stream()
-                .filter(t -> t.getTipoTransporte().equalsIgnoreCase(dto.getTransporte()))
-                .findFirst()
-                .orElseGet(() -> {
-                Transporte loc = new Transporte();
-                loc.setTipoTransporte(dto.getTransporte());
-                return transporteRepository.save(loc);
-            });
-            viaje.setTransporte(transporte);
-        }
-
-        if (dto.getAgencia() != null) {
-            Agencia agencia = agenciaRepository.findAll().stream()
-                .filter(a -> a.getNombre().equalsIgnoreCase(dto.getAgencia()))
-                .findFirst()
-                .orElseGet(() -> {
-                Agencia loc = new Agencia();
-                loc.setNombre(dto.getAgencia());
-                return agenciaRepository.save(loc);
-            });
-            viaje.setAgencia(agencia);
-        }
-
+        Set<EdadRango> edadRangos = new HashSet<>();
         if (dto.getEdadesNinos() != null && !dto.getEdadesNinos().isEmpty()) {
-            Set<EdadRango> edadRangos = new HashSet<>();
             for (Integer edad : dto.getEdadesNinos()) {
                 EdadRango rango = edadRangoRepository.findAll().stream()
-                    .filter(r -> r.containsAge(edad))
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("No se encontró un rango de edad para la edad: " + edad));
+                        .filter(r -> r.containsAge(edad))
+                        .findFirst()
+                        .orElseThrow(() -> new RuntimeException("No se encontró un rango de edad para la edad: " + edad));
                 edadRangos.add(rango);
             }
-            viaje.setEdadRangos(edadRangos);
         }
 
+        ViajeMapper.updateEntity(viaje, dto, salida, destino, tipo, transporte, agencia, edadRangos);
         viajeRepository.save(viaje);
         return new ResponseEntity<>("Viaje actualizado correctamente", HttpStatus.OK);
     }
+
+    private Localidad getOrCreateLocalidad(String ciudad, String pais) {
+        if (ciudad == null || pais == null) return null;
+        return localidadRepository.findAll().stream()
+                .filter(loc -> loc.getCiudad().equalsIgnoreCase(ciudad) && loc.getPais().equalsIgnoreCase(pais))
+                .findFirst()
+                .orElseGet(() -> {
+                    Localidad loc = new Localidad();
+                    loc.setCiudad(ciudad);
+                    loc.setPais(pais);
+                    return localidadRepository.save(loc);
+                });
+    }
+
+    private TipoViaje getOrCreateTipoViaje(String tipoViaje) {
+        if (tipoViaje == null) return null;
+        return tipoViajeRepository.findAll().stream()
+                .filter(t -> t.getTipoViaje().equalsIgnoreCase(tipoViaje))
+                .findFirst()
+                .orElseGet(() -> {
+                    TipoViaje newTipoViaje = new TipoViaje();
+                    newTipoViaje.setTipoViaje(tipoViaje);
+                    return tipoViajeRepository.save(newTipoViaje);
+                });
+    }
+
+    private Transporte getOrCreateTransporte(String tipoTransporte) {
+        if (tipoTransporte == null) return null;
+        return transporteRepository.findAll().stream()
+                .filter(t -> t.getTipoTransporte().equalsIgnoreCase(tipoTransporte))
+                .findFirst()
+                .orElseGet(() -> {
+                    Transporte newTransporte = new Transporte();
+                    newTransporte.setTipoTransporte(tipoTransporte);
+                    return transporteRepository.save(newTransporte);
+                });
+    }
+
+    private Agencia getOrCreateAgencia(String nombreAgencia) {
+        if (nombreAgencia == null) return null;
+        return agenciaRepository.findAll().stream()
+                .filter(a -> a.getNombre().equalsIgnoreCase(nombreAgencia))
+                .findFirst()
+                .orElseGet(() -> {
+                    Agencia newAgencia = new Agencia();
+                    newAgencia.setNombre(nombreAgencia);
+                    return agenciaRepository.save(newAgencia);
+                });
+    }
+
 
     public ResponseEntity<String> deleteViaje(Long id) {
         Viaje viaje = viajeRepository.findById(id)
