@@ -1,4 +1,4 @@
-package com.flymily.flymily.datainit;
+package com.flymily.flymily.seeder;
 
 import java.util.List;
 import org.springframework.boot.CommandLineRunner;
