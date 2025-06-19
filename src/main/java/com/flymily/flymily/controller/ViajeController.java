@@ -29,7 +29,7 @@ public class ViajeController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Viaje> crearViaje(@RequestBody CreateViajeRequestDTO dto) {
+    public ResponseEntity<Viaje> crearViaje(@Valid @RequestBody CreateViajeRequestDTO dto) {
         return viajeService.createViaje(dto);
     }
 

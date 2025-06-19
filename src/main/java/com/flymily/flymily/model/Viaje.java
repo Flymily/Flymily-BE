@@ -62,6 +62,7 @@ public class Viaje {
     private LocalDate fechaDeVuelta;
 
     @Column (name="Presupuesto")
+    @Min (value = 1, message = "(!) ERROR: el campo del número de adultos debe tener un valor mínimo de 1")
     private Integer presupuesto;
 
     @Column (name = "Discapacidad/Movilidad Reducida")
