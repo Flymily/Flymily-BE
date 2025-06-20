@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -58,6 +59,7 @@ public class SecurityConfig {
             .requestMatchers("/api/auth/login", "/api/viajes/filtrar", "/api/viajes/filtrar/detalle/**",
             "/api/posts-comunidad", "/api/posts-comunidad/view/**", "/api/viajes/filtrar/detalle/all",
             "/api/tipos-viaje/all").permitAll()
+            .requestMatchers(HttpMethod.POST, "/api/viajes/filtrar").permitAll()
             .requestMatchers("/api/posts-comunidad/auth/update/**", "/api/posts-comunidad/auth/delete/**", "/api/posts-comunidad/auth/create").authenticated()
             .anyRequest().authenticated()
         )
