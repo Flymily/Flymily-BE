@@ -26,4 +26,6 @@ public class ViajeDetalleDTO {
     private String ciudadDestino;
     private String paisDestino;
     private Set<String> rangosEdad;
+    private String agencia;
+
 }

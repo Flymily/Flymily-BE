@@ -85,6 +85,9 @@ public static ViajeSencilloDTO toDTO(Viaje viaje) {
             dto.setRangosEdad(rangos);
         }
         
+        dto.setAgencia(viaje.getAgencia() != null ? viaje.getAgencia().getNombre() : null);
+
+
         return dto;
     }
 
