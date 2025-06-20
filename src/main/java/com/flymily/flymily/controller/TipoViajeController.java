@@ -26,7 +26,7 @@ public class TipoViajeController {
         this.tipoViajeService = tipoViajeService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<TipoViajeDTO>> getAllTiposViaje() {
         List<TipoViajeDTO> tipos = tipoViajeService.getAllTiposViaje();
         return new ResponseEntity<>(tipos, HttpStatus.OK);
@@ -39,13 +39,13 @@ public class TipoViajeController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<TipoViajeDTO> createTipoViaje(@RequestBody TipoViajeDTO tipoViajeDTO) {
         TipoViajeDTO nuevoTipo = tipoViajeService.createTipoViaje(tipoViajeDTO);
         return new ResponseEntity<>(nuevoTipo, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<TipoViajeDTO> updateTipoViaje(
             @PathVariable Long id,
             @RequestBody TipoViajeDTO tipoViajeDTO) {
@@ -54,7 +54,7 @@ public class TipoViajeController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteTipoViaje(@PathVariable Long id) {
         boolean deleted = tipoViajeService.deleteTipoViaje(id);
         return deleted ? new ResponseEntity<>(HttpStatus.NO_CONTENT)
