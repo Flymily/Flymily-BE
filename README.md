@@ -18,6 +18,7 @@ Flymily es el backend de una aplicación web para una agencia de viajes. Incluye
 - **Lombok**
 - **MapStruct (DTO mapping)**
 - **CORS habilitado para frontend**
+
 ```
 ## 📂 Estructura del proyecto
 
