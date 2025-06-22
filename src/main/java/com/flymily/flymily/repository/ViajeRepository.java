@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
-import com.flymily.flymily.model.EdadRango;
 import com.flymily.flymily.model.Localidad;
 import com.flymily.flymily.model.TipoViaje;
 import com.flymily.flymily.model.Viaje;
@@ -26,25 +24,25 @@ public interface ViajeRepository extends JpaRepository<Viaje, Long>{
     @Query("""
         SELECT DISTINCT v FROM Viaje v
         JOIN v.edadRangos r
-        WHERE (:numAdultos IS NULL OR v.numAdultos >= :numAdultos)
-        AND (:numNinos IS NULL OR v.numNinos >= :numNinos)
-        AND (:fechaDeIda IS NULL OR v.fechaDeIda = :fechaDeIda)
-        AND (:fechaDeVuelta IS NULL OR v.fechaDeVuelta = :fechaDeVuelta)
-        AND (:localidadSalida IS NULL OR v.localidadSalida = :localidadSalida)
-        AND (:localidadDestino IS NULL OR v.localidadDestino = :localidadDestino)
-        AND (:tipoViaje IS NULL OR v.tipoViaje = :tipoViaje)
-        AND (:rangosEdad IS NULL OR r IN :rangosEdad)
+        WHERE v.numAdultos >= :numAdultos
+        AND v.numNinos >= :numNinos
+        AND v.fechaDeIda >= :fechaDeIda
+        AND v.fechaDeVuelta <= :fechaDeVuelta
+        AND v.localidadSalida = :localidadSalida
+        AND v.localidadDestino = :localidadDestino
+        AND v.tipoViaje = :tipoViaje
+        AND r.id IN :rangosEdadIds
     """)
-    List<Viaje> findByFilterCriteria(
-        @Param("numAdultos") Integer numAdultos,
-        @Param("numNinos") Integer numNinos,
-        @Param("fechaDeIda") LocalDate fechaDeIda,
-        @Param("fechaDeVuelta") LocalDate fechaDeVuelta,
-        @Param("localidadSalida") Localidad localidadSalida,
-        @Param("localidadDestino") Localidad localidadDestino,
-        @Param("tipoViaje") TipoViaje tipoViaje,
-        @Param("rangosEdad") List<EdadRango> rangosEdad
-    );
+        List<Viaje> findByFilterCriteria(
+            @Param("numAdultos") Integer numAdultos,
+            @Param("numNinos") Integer numNinos,
+            @Param("fechaDeIda") LocalDate fechaDeIda,
+            @Param("fechaDeVuelta") LocalDate fechaDeVuelta,
+            @Param("localidadSalida") Localidad localidadSalida,
+            @Param("localidadDestino") Localidad localidadDestino,
+            @Param("tipoViaje") TipoViaje tipoViaje,
+            @Param("rangosEdadIds") List<Long> rangosEdadIds
+        );
 
 }
 

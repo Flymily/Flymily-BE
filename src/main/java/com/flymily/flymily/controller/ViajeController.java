@@ -8,6 +8,7 @@ import com.flymily.flymily.dto.ViajeFilterDTO;
 import com.flymily.flymily.dto.ViajeSencilloDTO;
 import com.flymily.flymily.model.Viaje;
 import com.flymily.flymily.service.ViajeService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,13 +29,19 @@ public class ViajeController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Viaje> crearViaje(@RequestBody CreateViajeRequestDTO dto) {
+    public ResponseEntity<Viaje> crearViaje(@Valid @RequestBody CreateViajeRequestDTO dto) {
         return viajeService.createViaje(dto);
     }
 
     @GetMapping
     public List<Viaje> getAllViajes(){
         return viajeService.getAllViajes();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Viaje> getViajeById(@PathVariable Long id) {
+        Viaje viaje = viajeService.getViajeById(id);
+        return ResponseEntity.ok(viaje);
     }
     
     @GetMapping("/tipo/{tipoViajeId}")
@@ -67,9 +74,20 @@ public class ViajeController {
     }
 
     @PostMapping("/filtrar")
-    public ResponseEntity<List<ViajeDetalleDTO>> filtrarViajes(@RequestBody ViajeFilterDTO filter) {
+    public ResponseEntity<List<ViajeDetalleDTO>> filtrarViajes(@Valid @RequestBody ViajeFilterDTO filter) {
         List<ViajeDetalleDTO> resultados = viajeService.filterViajes(filter);
         return ResponseEntity.ok(resultados);
+    }
+
+    @GetMapping("/filtrar/detalle/{id}")
+    public ViajeDetalleDTO getViajeDetalle(@PathVariable Long id) {
+        return viajeService.getViajeDetalleById(id);
+    }
+
+    @GetMapping("/filtrar/detalle/all")
+    public ResponseEntity<List<ViajeDetalleDTO>> getAllViajesDetalle() {
+        List<ViajeDetalleDTO> viajesDetalle = viajeService.getAllViajesDetalle();
+        return ResponseEntity.ok(viajesDetalle);
     }
 }
 

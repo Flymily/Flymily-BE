@@ -65,4 +65,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("(!) ERROR: " + ex.getMessage());
     }
 
+    @ExceptionHandler(ViajeNotFoundException.class)
+    public ResponseEntity<String> handleViajeNotFoundException(ViajeNotFoundException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
 }

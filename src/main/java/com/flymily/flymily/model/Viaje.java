@@ -5,6 +5,7 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -61,6 +62,7 @@ public class Viaje {
     private LocalDate fechaDeVuelta;
 
     @Column (name="Presupuesto")
+    @Min (value = 1, message = "(!) ERROR: el campo del número de adultos debe tener un valor mínimo de 1")
     private Integer presupuesto;
 
     @Column (name = "Discapacidad/Movilidad Reducida")
@@ -75,27 +77,27 @@ public class Viaje {
     @Column (name="Imagen")
     private String imgPath;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "localidad_salida_id", nullable = false)
     private Localidad localidadSalida;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "localidad_destino_id", nullable = false)
     private Localidad localidadDestino;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "tipo_viaje_id", nullable = false)
     private TipoViaje tipoViaje;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "transporte_id", nullable = false)
     private Transporte transporte;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "agencia_id", nullable = false)
     private Agencia agencia;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "viaje_rango_edad",
         joinColumns = @JoinColumn(name = "viaje_id"),
