@@ -18,7 +18,7 @@ Flymily es el backend de una aplicación web para una agencia de viajes. Incluye
 - **Lombok**
 - **MapStruct (DTO mapping)**
 - **CORS habilitado para frontend**
-
+```
 ## 📂 Estructura del proyecto
 
 El proyecto sigue una arquitectura en capas estándar (controller - service - repository), con una estructura clara y modularizada. Incluye controladores REST, servicios de negocio, repositorios JPA, entidades, DTOs y excepciones personalizadas.
@@ -227,6 +227,7 @@ C:.
             └───flymily
                 └───Flymily_BE
                         FlymilyBeApplicationTests.class
+```
 
 ## 🔐 Autenticación de Administradoras
 
